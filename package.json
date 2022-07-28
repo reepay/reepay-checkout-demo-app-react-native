@@ -7,7 +7,7 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'"
+    "qr": "expo-cli start --tunnel"
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.11",
