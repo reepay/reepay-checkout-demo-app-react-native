@@ -5,11 +5,10 @@ This is an example of Reepay Checkout using [React Native](https://reactnative.d
 
 ## Setup
 
-This React Native app is built with Expo CLI. The development environment is described in [React Native Docs](https://reactnative.dev/docs/environment-setup). Install npm_modules with `npm install`.
+This React Native app is built with Expo CLI. The development environment is described in [React Native Docs](https://reactnative.dev/docs/environment-setup). Install node modules with `npm install`.
 
 ```
 npm install -g expo-cli
-
 ```
 
 ## Table of Contents
@@ -22,7 +21,7 @@ npm install -g expo-cli
   - [npm run web](#npm-run-web)
   - [npm run eject](#npm-run-eject)
 - [Usage](#usage)
-  - [Reepay Private API Key](#api-key)
+  - [Reepay Private API Key](#reepay-private-api-key)
 - [Troubleshooting](#troubleshooting)
   - [Apple Silicon build issues](#apple-silicon-build-issues)
 
@@ -87,19 +86,25 @@ npm run eject
 5. Create Reepay checkout in a webview.
 6. Accept or Cancel the checkout.
 
-
+#### Accept flow
+https://user-images.githubusercontent.com/108516218/181558317-920c21cc-bce4-44e8-bf57-c3ede1f32d7e.MOV 
+ 
+#### Cancel flow
+https://user-images.githubusercontent.com/108516218/181558393-ea189f9a-7959-4937-bbea-dd876c656c4c.MOV
 
 ### Reepay Private API Key
 
 When you have generated a [Private API Key](https://app.reepay.com/#/rp/dev/api) from Reepay. Add the value to `REEPAY_PRIVATE_API_KEY` located at `./src/Globals.ts`. 
 
-Alternatively, run your app and add it directly to input field for Private API Key.
+Alternatively, run your app and add it directly in the Private API Key input field.
+
+<img width="387" alt="screenshot_api_key" src="https://user-images.githubusercontent.com/108516218/181553078-feec4dd0-df62-441f-82e5-15bbc07abffe.png">
 
 ## Troubleshooting
 
 ### Apple Silicon build issues
 
-An issue have been found regarding building React Native apps for iOS using Apple Silicon processors (M1). There are some node version conflicts when using nvm thus creating errors on build. 
+An issue have been found regarding building React Native apps for iOS using Apple Silicon processors (M1). There are conflicts with node version when using nvm thus creating errors on build. 
 
 Upon receiving `PhaseScriptExecution [CP-User] error` when building iOS using `npm run ios`. Follow this temporary [solution](https://stackoverflow.com/questions/66742033/phasescriptexecution-cp-user-error-in-react-native/70309731#70309731). 
 
