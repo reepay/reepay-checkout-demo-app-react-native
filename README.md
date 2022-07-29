@@ -27,7 +27,7 @@ npm install -g expo-cli
 
 ## Available Scripts
 
-The project is built with `nvm version 0.39.1`, `node version v16.15.1`, `npm version 8.11.0`, `React Native version 0.68.2` and [`React Native 11.18.1`](https://github.com/react-native-webview/react-native-webview).
+The project is built with `node version v16.15.1`, `npm version 8.11.0`, `React Native version 0.68.2` and [`React Native WebView 11.18.1`](https://github.com/react-native-webview/react-native-webview).
 
 ### `npm run start`
 
@@ -69,7 +69,7 @@ npm run web
 
 #### `npm run eject`
 
-If you plan to include your own native code, you will need to "eject" to create your own native builds. The "React Native CLI Quickstart" instructions will be required to continue working this project.
+If you plan to include your own native code, you will need to "eject" to create your own native builds. The "React Native CLI Quickstart" instructions will be required to continue working on this project.
 
 Warning: Running eject is a permanent action (aside from whatever version control system you use). An ejected app will require you to have an [Xcode and/or Android Studio environment](https://reactnative.dev/docs/environment-setup) set up.
 
@@ -80,10 +80,10 @@ npm run eject
 ## Usage
 
 1. Generate Private API Key from your Reepay account. 
-2. Add the Private API Key Globals.ts or in the app. 
-3. Add an unique identifier for your Order Handle.
+2. Add the Private API Key to Globals.ts or in the app. 
+3. (Optional) Add an unique identifier for your Order and/or Customer handle.
 4. Generate a charge session.
-5. Create Reepay checkout in a webview.
+5. Create Reepay checkout in the webview.
 6. Accept or Cancel the checkout.
 
 #### Accept flow
