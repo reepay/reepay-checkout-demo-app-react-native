@@ -24,7 +24,7 @@ export const Home = ({ navigation }: any) => {
       <View style={styles.container}>
         <CustomStatusBar />
         <Text style={styles.title}>
-          Enter an "Order handle" to create a checkout webview
+          Generate a charge session and create a Reepay Checkout
         </Text>
         <Input />
       </View>
@@ -52,6 +52,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   statusBar: {
-    backgroundColor: "1eaa7d",
+    backgroundColor: "#1eaa7d",
   },
 });

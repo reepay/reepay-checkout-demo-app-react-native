@@ -6,20 +6,19 @@ export let apiKeyInput: string;
 export const Api = {
 
     setApiKey(key: string): void { apiKeyInput = key },
-    getApiKey(): string { return apiKeyInput },
+    getApiKey(): string { return apiKeyInput ? apiKeyInput : GLOBALS.REEPAY_PRIVATE_API_KEY; },
 
     /**
      * Convert api key to base64-encoded string
      * @returns string
      */
     ApiKeyBase64(): string {
-        const key: string = apiKeyInput ? apiKeyInput : GLOBALS.REEPAY_PRIVATE_API_KEY;
+        const key: string = this.getApiKey();
         return Buffer.from(key, "utf-8").toString("base64");
     },
 
     /**
        * Returns an auto-generated customer handle
-       * @param privateKey Your Reepay private API key
        * @returns Promise<string> e.g. customer-007
        */
     getCustomerHandle(): Promise<string> {
@@ -63,6 +62,11 @@ export const Api = {
         customerHandle: string,
         orderHandle: string
     ): Promise<any> {
+
+        if (!orderHandle) {
+            orderHandle = this.generateOrderHandle();
+        }
+
         const requestOptions = {
             method: "POST",
             headers: {
@@ -78,12 +82,12 @@ export const Api = {
                     order_lines: [
                         {
                             ordertext: "Example Product",
-                            amount: 1000,
+                            amount: 100,
                             quantity: 10,
                         },
                         {
                             ordertext: "Another Product",
-                            amount: 34999,
+                            amount: 499,
                             quantity: 1,
                         },
                     ],
@@ -120,5 +124,13 @@ export const Api = {
         });
     },
 
+    /**
+     * Generate example of Order Handle
+     * @returns order handle as "order-example-<timestamp>"
+     */
+    generateOrderHandle(): string {
+        const currentTime = new Date().getTime().toString();
+        return `order-example-${currentTime}`;
+    },
 }
 
