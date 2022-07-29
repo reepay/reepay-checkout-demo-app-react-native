@@ -87,10 +87,10 @@ npm run eject
 6. Accept or Cancel the checkout.
 
 #### Accept flow
-https://user-images.githubusercontent.com/108516218/181558317-920c21cc-bce4-44e8-bf57-c3ede1f32d7e.MOV 
- 
+https://user-images.githubusercontent.com/108516218/181744232-6ecc46e1-34e1-48cb-95a0-61467cfe0f88.MOV
+
 #### Cancel flow
-https://user-images.githubusercontent.com/108516218/181558393-ea189f9a-7959-4937-bbea-dd876c656c4c.MOV
+https://user-images.githubusercontent.com/108516218/181744248-75d8d79a-e953-4335-8d0b-d5dd8fbb4523.MOV
 
 ### Reepay Private API Key
 
@@ -98,7 +98,7 @@ When you have generated a [Private API Key](https://app.reepay.com/#/rp/dev/api)
 
 Alternatively, run your app and add it directly in the Private API Key input field.
 
-<img width="387" alt="screenshot_api_key" src="https://user-images.githubusercontent.com/108516218/181553078-feec4dd0-df62-441f-82e5-15bbc07abffe.png">
+<img width="382" alt="Screenshot 2022-07-29 at 12 37 23" src="https://user-images.githubusercontent.com/108516218/181742087-5f6f5a55-be59-41fe-9768-377a5c5bbb04.png">
 
 ## Troubleshooting
 
