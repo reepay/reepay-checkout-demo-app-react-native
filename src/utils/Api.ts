@@ -126,11 +126,11 @@ export const Api = {
 
     /**
      * Generate example of Order Handle
-     * @returns order handle as "order-example-<timestamp>"
+     * @returns order handle as "order-reactnative-<timestamp>"
      */
     generateOrderHandle(): string {
         const currentTime = new Date().getTime().toString();
-        return `order-example-${currentTime}`;
+        return `order-reactnative-${currentTime}`;
     },
 }
 

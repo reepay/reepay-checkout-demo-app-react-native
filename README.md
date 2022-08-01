@@ -108,4 +108,4 @@ An issue have been found regarding building React Native apps for iOS using Appl
 
 Upon receiving `PhaseScriptExecution [CP-User] error` when building iOS using `npm run ios`. Follow this temporary [solution](https://stackoverflow.com/questions/66742033/phasescriptexecution-cp-user-error-in-react-native/70309731#70309731). 
 
-Note that the iOS build works when running in Xcode. In case of the Xcode build error `Could not find node. Make sure it is in bash PATH or set the NODE_BINARY environment variable.`, please refer to [this](https://stackoverflow.com/a/67342683/18702051)
+Note that the iOS build works when running in Xcode. In case of the Xcode build error `Could not find node. Make sure it is in bash PATH or set the NODE_BINARY environment variable.`, please refer to [this.](https://stackoverflow.com/a/67342683/18702051)
