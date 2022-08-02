@@ -1,5 +1,4 @@
-Reepay Checkout - React Native Example
-===
+# Reepay Checkout - React Native Example
 
 This is an example of Reepay Checkout using [React Native](https://reactnative.dev/) app.
 
@@ -36,6 +35,7 @@ Runs your app in development mode.
 ```
 npm run start
 ```
+
 ### `npm run qr`
 
 Runs your app in [Expo](https://expo.dev/) app and generates a QR code which can be viewed using [Expo for Android](https://play.google.com/store/apps/details?id=host.exp.exponent) or [Expo Go for iOS](https://apps.apple.com/us/app/expo-go/id982107779).
@@ -51,6 +51,7 @@ Like `npm run start`, but also attempts to open your app on a connected Android 
 ```
 npm run android
 ```
+
 #### `npm run ios`
 
 Like `npm run start`, but also attempts to open your app on a connected iOS device or simulator if you are using a Mac and have it installed. An iOS folder will be generated which can be opened in [Xcode](https://developer.apple.com/xcode/). There may be some issues with Apple Silicon processor (M1) if you are using nvm and running your app with `npm run ios`. Read more under [Troubleshooting](#troubleshooting).
@@ -79,22 +80,24 @@ npm run eject
 
 ## Usage
 
-1. Generate Private API Key from your Reepay account. 
-2. Add the Private API Key to Globals.ts or in the app. 
+1. Generate Private API Key from your Reepay account.
+2. Add the Private API Key to Globals.ts or in the app.
 3. (Optional) Add an unique identifier for your Order and/or Customer handle.
 4. Generate a charge session.
 5. Create Reepay checkout in the webview.
-6. Accept or Cancel the checkout.
+6. Complete the purchase with a [test card](https://reference.reepay.com/api/#testing) or cancel the checkout.
 
 #### Accept flow
+
 https://user-images.githubusercontent.com/108516218/181744232-6ecc46e1-34e1-48cb-95a0-61467cfe0f88.MOV
 
 #### Cancel flow
+
 https://user-images.githubusercontent.com/108516218/181744248-75d8d79a-e953-4335-8d0b-d5dd8fbb4523.MOV
 
 ### Reepay Private API Key
 
-When you have generated a [Private API Key](https://app.reepay.com/#/rp/dev/api) from Reepay. Add the value to `REEPAY_PRIVATE_API_KEY` located at `./src/Globals.ts`. 
+When you have generated a [Private API Key](https://app.reepay.com/#/rp/dev/api) from Reepay. Add the value to `REEPAY_PRIVATE_API_KEY` located at `./src/Globals.ts`.
 
 Alternatively, run your app and add it directly in the Private API Key input field.
 
@@ -104,8 +107,8 @@ Alternatively, run your app and add it directly in the Private API Key input fie
 
 ### Apple Silicon build issues
 
-An issue have been found regarding building React Native apps for iOS using Apple Silicon processors (M1). There are conflicts with node version when using nvm thus creating errors on build. 
+An issue have been found regarding building React Native apps for iOS using Apple Silicon processors (M1). There are conflicts with node version when using nvm thus creating errors on build.
 
-Upon receiving `PhaseScriptExecution [CP-User] error` when building iOS using `npm run ios`. Follow this temporary [solution](https://stackoverflow.com/questions/66742033/phasescriptexecution-cp-user-error-in-react-native/70309731#70309731). 
+Upon receiving `PhaseScriptExecution [CP-User] error` when building iOS using `npm run ios`. Follow this temporary [solution](https://stackoverflow.com/questions/66742033/phasescriptexecution-cp-user-error-in-react-native/70309731#70309731).
 
 Note that the iOS build works when running in Xcode. In case of the Xcode build error `Could not find node. Make sure it is in bash PATH or set the NODE_BINARY environment variable.`, please refer to [this.](https://stackoverflow.com/a/67342683/18702051)
