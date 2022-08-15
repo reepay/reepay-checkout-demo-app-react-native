@@ -40,7 +40,7 @@ export default class Checkout extends Component<Props> {
             onPress: () => {
               const resetAction = CommonActions.reset({
                 index: 0,
-                routes: [{ name: "Home" }],
+                routes: [{ name: "Cart" }],
               });
               this.props.navigation.dispatch(resetAction);
             },

@@ -1,34 +1,27 @@
 import React from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  StatusBar,
-  View,
-  Text,
-  Platform,
-} from "react-native";
-import { Input } from "./Input";
-
-const CustomStatusBar = () => {
-  if (Platform.OS === "android") {
-    return <StatusBar></StatusBar>;
-  } else if (Platform.OS === "ios") {
-    return <StatusBar barStyle={"light-content"}></StatusBar>;
-  }
-  return null;
-};
+import { ScrollView, StyleSheet, View, Text, Button } from "react-native";
 
 export const Home = ({ navigation }: any) => {
   return (
-    <ScrollView style={styles.scrollView}>
-      <View style={styles.container}>
-        <CustomStatusBar />
-        <Text style={styles.title}>
-          Generate a charge session and create a Reepay Checkout
-        </Text>
-        <Input />
-      </View>
-    </ScrollView>
+    <View
+      style={{
+        flexGrow: 1,
+      }}
+    >
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
+      >
+        <View style={styles.container}>
+          <Text style={styles.title}>Reepay Checkout Examples</Text>
+          <Button onPress={() => navigation.openDrawer()} title="Open menu" />
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -45,7 +38,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: 30,
   },
   scrollView: {
     backgroundColor: "#fff",

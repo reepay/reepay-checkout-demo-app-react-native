@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Reepay Checkout",
+    "name": "reepay-checkout-react-native-example",
     "slug": "reepay-checkout-react-native-example",
     "description": "Reepay Checkout example in React Native",
     "owner": "reepaydev",
