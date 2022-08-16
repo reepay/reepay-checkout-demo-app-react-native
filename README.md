@@ -21,6 +21,7 @@ npm install -g expo-cli
   - [npm run eject](#npm-run-eject)
 - [Usage](#usage)
   - [Reepay Private API Key](#reepay-private-api-key)
+  - [Reepay MobilePay Checkout](#reepay-mobilepay-checkout)
 - [Troubleshooting](#troubleshooting)
   - [Apple Silicon build issues](#apple-silicon-build-issues)
 
@@ -80,6 +81,8 @@ npm run eject
 
 ## Usage
 
+Card payment steps:
+
 1. Generate Private API Key from your Reepay account.
 2. Add the Private API Key to Globals.ts or in the app.
 3. (Optional) Add an unique identifier for your Order and/or Customer handle.
@@ -102,6 +105,21 @@ When you have generated a [Private API Key](https://app.reepay.com/#/rp/dev/api)
 Alternatively, run your app and add it directly in the Private API Key input field.
 
 <img width="382" alt="Screenshot 2022-07-29 at 12 37 23" src="https://user-images.githubusercontent.com/108516218/181742087-5f6f5a55-be59-41fe-9768-377a5c5bbb04.png">
+
+### Reepay MobilePay Checkout
+
+MobilePay Online must be activated in your Reepay account under Configuration -> Payment Methods -> Mobile Payments. For Reepay Test accounts, it is required to get [MobilePay Sandbox](https://developer.mobilepay.dk/products/online/getting-started) app. Reepay Live accounts will use `MobilePay` app.
+
+Recommended to use `npm run qr` for testing MobilePay Checkout.
+
+MobilePay Online steps:
+
+1. Generate Private API Key from your Reepay account.
+2. Add the Private API Key to Globals.ts or in the app.
+3. Add a Danish phone number.
+4. Generate a charge session.
+5. Create MobilePay checkout in the webview.
+6. Complete the purchase with a [MobilePay test user](https://developer.mobilepay.dk/products/online/test) or reject the payment.
 
 ## Troubleshooting
 
