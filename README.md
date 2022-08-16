@@ -108,7 +108,7 @@ Alternatively, run your app and add it directly in the Private API Key input fie
 
 ### Reepay MobilePay Checkout
 
-MobilePay Online must be activated in your Reepay account under Configuration -> Payment Methods -> Mobile Payments. For Reepay Test accounts, it is required to get [MobilePay Sandbox](https://developer.mobilepay.dk/products/online/getting-started) app. Reepay Live accounts will use `MobilePay` app.
+MobilePay Online must be activated in your Reepay account under Configuration -> Payment Methods -> Mobile Payments. For Reepay Test accounts, it is required to get [`MobilePay Sandbox`](https://developer.mobilepay.dk/products/online/getting-started) app. Reepay Live accounts will use `MobilePay` app.
 
 Recommended to use `npm run qr` for testing MobilePay Checkout.
 
