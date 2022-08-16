@@ -1,5 +1,9 @@
+import { CommonActions } from "@react-navigation/native";
 import React from "react";
-import { ScrollView, StyleSheet, View, Text, Button } from "react-native";
+import {
+  Alert, Button, ScrollView,
+  StyleSheet, Text, View
+} from "react-native";
 
 export const Home = ({ navigation }: any) => {
   return (
@@ -21,6 +25,30 @@ export const Home = ({ navigation }: any) => {
           <Button onPress={() => navigation.openDrawer()} title="Open menu" />
         </View>
       </ScrollView>
+      <View style={styles.container}>
+        <Button
+          onPress={() => {
+            Alert.alert("Restart app", "Do you want to restart the app?", [
+              {
+                text: "Yes",
+                onPress: () => {
+                  const resetAction = CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: "Home" }],
+                  });
+                  navigation.dispatch(resetAction);
+                },
+              },
+              {
+                text: "Cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel",
+              },
+            ]);
+          }}
+          title="Restart app"
+        />
+      </View>
     </View>
   );
 };

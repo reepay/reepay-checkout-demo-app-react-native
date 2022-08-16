@@ -10,7 +10,7 @@ interface Props {
 
 const Stack = createNativeStackNavigator();
 
-function Screen({ navigation }: { navigation: any }) {
+function CardCheckoutScreen({ navigation }: { navigation: any }) {
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
@@ -32,8 +32,8 @@ export default class CardCheckout extends Component<Props> {
     return (
       <Stack.Navigator>
         <Stack.Screen
-          name="Cart"
-          component={Screen}
+          name="CardCheckoutScreen"
+          component={CardCheckoutScreen}
           options={{
             headerShown: false,
           }}
@@ -68,8 +68,5 @@ const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: "#fff",
     paddingHorizontal: 20,
-  },
-  statusBar: {
-    backgroundColor: "#1eaa7d",
   },
 });

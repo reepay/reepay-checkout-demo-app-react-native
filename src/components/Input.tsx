@@ -96,26 +96,13 @@ export const Input = () => {
             Api.setApiKey(apiKey.trim());
           }
 
-          if (customerHandle) {
-            Api.getChargeSession(customerHandle, orderHandle)
-              .then((session: any) => {
-                onSessionSuccess(session);
-              })
-              .catch((rejected) => {
-                onSessionError(rejected);
-              });
-            return;
-          }
-
-          Api.getCustomerHandle().then((customerHandle: string) => {
-            Api.getChargeSession(customerHandle, orderHandle)
-              .then((session: any) => {
-                onSessionSuccess(session);
-              })
-              .catch((rejected) => {
-                onSessionError(rejected);
-              });
-          });
+          Api.getChargeSession(customerHandle, orderHandle)
+            .then((session: any) => {
+              onSessionSuccess(session);
+            })
+            .catch((rejected) => {
+              onSessionError(rejected);
+            });
         }}
         color={"#194c85"}
         disabled={sessionUrl.length > 0}
@@ -146,6 +133,7 @@ export const Input = () => {
           }
 
           navigation.navigate("Checkout", {
+            previousScreen: "CardCheckoutScreen",
             url: sessionUrl.trim(),
           });
         }}
