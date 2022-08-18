@@ -1,6 +1,6 @@
 import { CommonActions } from "@react-navigation/native";
 import React, { Component, ReactNode } from "react";
-import { Alert, EmitterSubscription, Linking } from "react-native";
+import { Alert, EmitterSubscription, Linking, Platform } from "react-native";
 import WebView from "react-native-webview";
 
 interface Props {
@@ -32,46 +32,59 @@ export default class Checkout extends Component<Props> {
   componentDidMount() {
     this.listener = Linking.addEventListener("url", (event) => {
       console.log("Initial url changed: ", event);
+
       if ((event.url as String).includes("?cancel=true")) {
         this.props.navigation.goBack();
         return;
+      }
+
+      if ((event.url as String).includes("accept")) {
+        this.onAcceptUrl();
       }
     });
   }
 
   componentWillUnmount() {
-    // Linking.removeEventListener("url", Api.handleOpenURL); // deprecated
     this.listener?.remove();
   }
 
+  render(): ReactNode {
+    return (
+      <WebView
+        source={{
+          uri: this.sessionUrl,
+        }}
+        style={{ marginVertical: 30 }}
+        onLoadEnd={() => {}}
+        startInLoadingState={true}
+        javaScriptEnabled={true}
+        domStorageEnabled={true}
+        onShouldStartLoadWithRequest={() => true}
+        onLoadProgress={({ nativeEvent }) => {
+          // console.log(nativeEvent);
+        }}
+        onNavigationStateChange={(state) => {
+          // console.log(state);
+
+          if (this.previousScreen === "MobilePayCheckoutScreen") {
+            this.onMpUrlChange(state);
+            return;
+          }
+          this.onUrlChange(state);
+        }}
+      />
+    );
+  }
+
   /**
-   * Handle MobilePay Online accept/cancel url redirects
+   * Handle MobilePay Online url redirects
    */
   onMpUrlChange(response: any) {
     console.log(response);
 
-    // todo: use Linking event listener for URL changes
-    // if (response.url.includes("cancel")) {
-    //   this.props.navigation.goBack("");
-    //   return;
-    // }
-
     if (response.url.includes("accept")) {
-      if (!this.state.alertShown) {
-        this.setState({ alertShown: true });
-        Alert.alert("Response", "Payment successful", [
-          {
-            text: "Go back",
-            onPress: () => {
-              const resetAction = CommonActions.reset({
-                index: 0,
-                routes: [{ name: this.previousScreen }],
-              });
-              this.props.navigation.dispatch(resetAction);
-            },
-          },
-        ]);
-      }
+      this.onAcceptUrl();
+      return;
     }
 
     if (response.title.includes("MobilePay")) {
@@ -110,11 +123,7 @@ export default class Checkout extends Component<Props> {
           {
             text: "Go back",
             onPress: () => {
-              const resetAction = CommonActions.reset({
-                index: 0,
-                routes: [{ name: this.previousScreen }],
-              });
-              this.props.navigation.dispatch(resetAction);
+              this.onAcceptUrl();
             },
           },
         ]);
@@ -122,31 +131,32 @@ export default class Checkout extends Component<Props> {
     }
   }
 
-  render(): ReactNode {
-    return (
-      <WebView
-        source={{
-          uri: this.sessionUrl,
-        }}
-        style={{ marginVertical: 30 }}
-        onLoadEnd={() => {}}
-        startInLoadingState={true}
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        onShouldStartLoadWithRequest={() => true}
-        onLoadProgress={({ nativeEvent }) => {
-          // console.log(nativeEvent);
-        }}
-        onNavigationStateChange={(state) => {
-          // console.log(state);
+  private onAcceptUrl() {
+    if (!this.state.alertShown) {
+      this.setState({ alertShown: true });
 
-          if (this.previousScreen === "MobilePayCheckoutScreen") {
-            this.onMpUrlChange(state);
-            return;
-          }
-          this.onUrlChange(state);
-        }}
-      />
-    );
+      if (Platform.OS === "android") {
+        console.log("ANDROID MOBILEPAY: payment successful!");
+        this.resetAndBack();
+        return;
+      }
+
+      Alert.alert("Response", "Payment successful", [
+        {
+          text: "Go back",
+          onPress: () => {
+            this.resetAndBack();
+          },
+        },
+      ]);
+    }
+  }
+
+  private resetAndBack() {
+    const resetAction = CommonActions.reset({
+      index: 0,
+      routes: [{ name: this.previousScreen }],
+    });
+    this.props.navigation.dispatch(resetAction);
   }
 }

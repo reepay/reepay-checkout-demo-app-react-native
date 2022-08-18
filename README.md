@@ -39,7 +39,7 @@ npm run start
 
 ### `npm run qr`
 
-Runs your app in [Expo](https://expo.dev/) app and generates a QR code which can be viewed using [Expo for Android](https://play.google.com/store/apps/details?id=host.exp.exponent) or [Expo Go for iOS](https://apps.apple.com/us/app/expo-go/id982107779).
+Runs your app in [Expo](https://expo.dev/) development client by scanning the generated QR code. The app can be viewed using [Expo for Android](https://play.google.com/store/apps/details?id=host.exp.exponent) or [Expo Go for iOS](https://apps.apple.com/us/app/expo-go/id982107779).
 
 ```
 npm run qr
@@ -47,7 +47,7 @@ npm run qr
 
 #### `npm run android`
 
-Like `npm run start`, but also attempts to open your app on a connected Android device or emulator. It requires installation of Android build tools (see [React Native Docs](https://reactnative.dev/docs/running-on-device) for how to run on devices). An Android folder will be generated which can be opened with [Android Studio](https://developer.android.com/studio).
+Like `npm run start`, but also attempts to open your app on a connected Android device or Android emulator. It requires installation of Android build tools (see [React Native Docs](https://reactnative.dev/docs/running-on-device) for how to run on devices). An Android folder will be generated which can be opened with [Android Studio](https://developer.android.com/studio).
 
 ```
 npm run android
@@ -55,10 +55,10 @@ npm run android
 
 #### `npm run ios`
 
-Like `npm run start`, but also attempts to open your app on a connected iOS device or simulator if you are using a Mac and have it installed. An iOS folder will be generated which can be opened in [Xcode](https://developer.apple.com/xcode/). There may be some issues with Apple Silicon processor (M1) if you are using nvm and running your app with `npm run ios`. Read more under [Troubleshooting](#troubleshooting).
+Like `npm run start`, but also attempts to open your app on an iOS simulator. An iOS folder will be generated which can be opened in [Xcode](https://developer.apple.com/xcode/), which you can run your app on an [iOS device](https://reactnative.dev/docs/running-on-device#running-your-app-on-ios-devices). There may be some issues with Apple Silicon processor (M1) if you are using nvm and running your app with `npm run ios`. Read more under [Troubleshooting](#troubleshooting).
 
 ```
-npm run qr
+npm run ios
 ```
 
 #### `npm run web`

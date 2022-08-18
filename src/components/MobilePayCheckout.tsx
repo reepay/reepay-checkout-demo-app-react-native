@@ -4,13 +4,12 @@ import React, { ReactNode, useState } from "react";
 import {
   Alert,
   Button,
-  Linking,
-  SafeAreaView,
+  Linking, SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
-  View,
+  View
 } from "react-native";
 import { GLOBALS } from "../Globals";
 import { Api } from "../utils/Api";
@@ -29,7 +28,7 @@ function PhoneInput() {
   const [sessionUrl, setSessionUrl] = useState("");
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <View>
         <Button
           title="Reset example"
