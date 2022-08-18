@@ -121,6 +121,8 @@ MobilePay Online steps:
 5. Create MobilePay checkout in the webview.
 6. Complete the purchase with a [MobilePay test user](https://developer.mobilepay.dk/products/online/test) or reject the payment.
 
+https://user-images.githubusercontent.com/108516218/185397780-77cc8d5b-16e6-4a35-90c4-93e99e6748e5.mov
+
 ## Troubleshooting
 
 ### Apple Silicon build issues
