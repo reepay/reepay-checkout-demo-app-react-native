@@ -135,6 +135,7 @@ export const Input = () => {
           navigation.navigate("Checkout", {
             previousScreen: "CardCheckoutScreen",
             url: sessionUrl.trim(),
+            id: sessionId.trim(),
           });
         }}
         disabled={!sessionUrl}

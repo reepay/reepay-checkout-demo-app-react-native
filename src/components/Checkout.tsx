@@ -8,6 +8,7 @@ interface Props {
 }
 
 export default class Checkout extends Component<Props> {
+  private sessionId: string;
   private sessionUrl: string;
   private previousScreen: string;
   private listener: EmitterSubscription | undefined;
@@ -19,7 +20,9 @@ export default class Checkout extends Component<Props> {
 
   constructor(props: any) {
     super(props);
-    // console.log(props.route.params);
+    // console.log(props.route.params)
+
+    this.sessionId = props.route.params.id;
     this.sessionUrl = props.route.params.url;
     this.previousScreen = props.route.params.previousScreen;
 
@@ -49,10 +52,17 @@ export default class Checkout extends Component<Props> {
   }
 
   render(): ReactNode {
+    const runFirst = `
+      window.isNativeApp = true;
+      true; // note: this is required, or you'll sometimes get silent failures
+    `;
+
     return (
       <WebView
         source={{
-          uri: this.sessionUrl,
+          // todo: change here for testing webview url vs. html
+          uri: this.sessionUrl, // with url
+          // html: this.getReepayHtml(this.sessionId), // with html
         }}
         style={{ marginVertical: 30 }}
         onLoadEnd={() => {}}
@@ -63,6 +73,7 @@ export default class Checkout extends Component<Props> {
         onLoadProgress={({ nativeEvent }) => {
           // console.log(nativeEvent);
         }}
+        // injectedJavaScriptBeforeContentLoaded={runFirst}
         onNavigationStateChange={(state) => {
           // console.log(state);
 
@@ -74,6 +85,25 @@ export default class Checkout extends Component<Props> {
         }}
       />
     );
+  }
+
+  getReepayHtml(id: string): string {
+    return `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          <script src="https://checkout.reepay.com/checkout.js"></script>
+        </head>
+        <body>
+          <div id="rp_container" style="min-width: 300px; width: 100%; height: 600px; margin: auto;"></div>
+          <script>
+            var rp = new Reepay.WindowCheckout("${id}", { html_element: "rp_container" });
+          </script>
+        </body>
+        </html>
+      `;
   }
 
   /**
