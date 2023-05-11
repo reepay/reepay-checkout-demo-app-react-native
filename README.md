@@ -19,6 +19,9 @@ npm install -g expo-cli
   - [npm run ios](#npm-run-ios)
   - [npm run web](#npm-run-web)
   - [npm run eject](#npm-run-eject)
+- [Events](#events)
+  - [Url path changes](#url-path-changes)
+  - [Extra](#extra)
 - [Usage](#usage)
   - [Reepay Private API Key](#reepay-private-api-key)
   - [Reepay MobilePay Checkout](#reepay-mobilepay-checkout)
@@ -78,6 +81,23 @@ Warning: Running eject is a permanent action (aside from whatever version contro
 ```
 npm run eject
 ```
+
+## Events
+In the app, we will use URL path changes as events that WebView listens to, thus checking whether URL contains `accept` or `cancel` in the path. 
+
+### URL path changes
+As we are using WebView by passing session URL, we will receive response with as either Accept URL or Cancel URL as defined in the request body [docs](https://docs.reepay.com/reference/createchargesession):
+```
+{
+  ...
+  "accept_url":"https://webshop.com/accept/order-12345",
+  "cancel_url":"https://webshop.com/decline/order-12345"
+}
+```
+In the WebView, we will listen to URL changes when the checkout has completed a redirect, either accept or cancel by checking the URL path. For example the above cancel_url, we will check for `/decline` meaning the cancel_url has been triggered and WebView has redirected. 
+
+### Extra
+For additional parameters to be passed, use query parameters in `accept_url` or `cancel_url`. For example, `https://webshop.com/decline/order-12345?myEvent=someValue&yourEvent=anotherValue`.
 
 ## Usage
 
