@@ -125,9 +125,9 @@ export const Input = () => {
       <Button
         title="Create checkout"
         onPress={() => {
-          if (!sessionUrl.includes("https://checkout.reepay.com")) {
+          if (!sessionUrl.includes("checkout.reepay.com")) {
             alert(
-              'Please enter a charge session URL from "https://checkout.reepay.com"'
+              'Please enter a charge session URL from "https://checkout.reepay.com" or "https://staging-checkout.reepay.com"'
             );
             return;
           }
@@ -138,7 +138,6 @@ export const Input = () => {
             id: sessionId.trim(),
           });
         }}
-        disabled={!sessionUrl}
         color={"#194c85"}
       ></Button>
     </SafeAreaView>
