@@ -82,24 +82,15 @@ export const Api = {
                 Authorization: this.ApiKeyBase64(),
             },
             body: JSON.stringify({
+                configuration: "default",
+                locale: "en_GB",
+                recurring: false,
+                recurring_optional: false,
                 order: {
+                    handle: "order_test_1686217531940",
+                    amount: 20000,
                     currency: "DKK",
-                    handle: orderHandle,
-                    customer: {
-                        handle: customerHandle,
-                    },
-                    order_lines: [
-                        {
-                            ordertext: "Example Product",
-                            amount: 100,
-                            quantity: 10,
-                        },
-                        {
-                            ordertext: "Another Product",
-                            amount: 499,
-                            quantity: 1,
-                        },
-                    ],
+                    customer_handle: "cust-0068"
                 },
                 accept_url: this.getDeepLinkingUrl() + "?accept=true",
                 // "https://sandbox.reepay.com/api/httpstatus/200/accept/" + orderHandle,
