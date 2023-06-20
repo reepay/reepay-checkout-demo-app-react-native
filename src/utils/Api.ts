@@ -87,7 +87,7 @@ export const Api = {
                 recurring: false,
                 recurring_optional: false,
                 order: {
-                    handle: "order_test_1686217531940",
+                    handle: "order_test_1686217531944",
                     amount: 20000,
                     currency: "DKK",
                     customer_handle: "cust-0068"

@@ -2,6 +2,7 @@ import { CommonActions } from "@react-navigation/native";
 import React, { Component, ReactNode } from "react";
 import { Alert, EmitterSubscription, Linking, Platform } from "react-native";
 import WebView from "react-native-webview";
+import { GLOBALS } from "../Globals";
 
 interface Props {
   navigation: any;
@@ -56,12 +57,15 @@ export default class Checkout extends Component<Props> {
       window.isNativeApp = true;
       true; // note: this is required, or you'll sometimes get silent failures
     `;
+    const sessionUrl: string = GLOBALS.TEST_CHECKOUT_SESSION_URL
+      ? GLOBALS.TEST_CHECKOUT_SESSION_URL
+      : this.sessionUrl;
 
     return (
       <WebView
         source={{
           // todo: change here for testing webview url vs. html
-          uri: this.sessionUrl, // with url
+          uri: sessionUrl, // with url
           // html: this.getReepayHtml(this.sessionId), // with html
         }}
         style={{ marginVertical: 30 }}
@@ -75,7 +79,10 @@ export default class Checkout extends Component<Props> {
         }}
         // injectedJavaScriptBeforeContentLoaded={runFirst}
         onNavigationStateChange={(state) => {
-          // console.log(state);
+          console.log(
+            "🚀 ~ file: Checkout.tsx:82 ~ Checkout ~ render ~ state:",
+            state
+          );
 
           if (this.previousScreen === "MobilePayCheckoutScreen") {
             this.onMpUrlChange(state);

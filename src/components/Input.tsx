@@ -13,11 +13,15 @@ import { GLOBALS } from "../Globals";
 import { Api } from "../utils/Api";
 
 export const Input = () => {
+  const defaultSessionUrl: string = GLOBALS.TEST_CHECKOUT_SESSION_URL
+    ? GLOBALS.TEST_CHECKOUT_SESSION_URL
+    : "";
+
   const navigation = useNavigation();
   const [apiKey, onApiKeyChange] = useState("");
   const [customerHandle, onChangeCustomer] = useState("");
   const [orderHandle, onChangeOrder] = useState("");
-  const [sessionUrl, onChangedSession] = useState("");
+  const [sessionUrl, onChangedSession] = useState(defaultSessionUrl);
   const [sessionId, setId] = useState("");
 
   function onSessionSuccess(session: any): void {
@@ -53,7 +57,7 @@ export const Input = () => {
             onApiKeyChange("");
             onChangeOrder("");
             onChangeCustomer("");
-            onChangedSession("");
+            onChangedSession(defaultSessionUrl);
             setId("");
           }}
           color={"#194c85"}
