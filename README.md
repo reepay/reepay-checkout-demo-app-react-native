@@ -30,7 +30,7 @@ npm install -g expo-cli
 
 ## Available Scripts
 
-The project is built with `node version v16.15.1`, `npm version 8.11.0`, `React Native version 0.68.2` and [`React Native WebView 11.18.1`](https://github.com/react-native-webview/react-native-webview).
+The project is built with `node version v16.15.1`, `npm version 8.11.0`, `expo version 46.0.0`, `React Native version 0.69.6` and [`React Native WebView 11.23.0`](https://github.com/react-native-webview/react-native-webview).
 
 ### `npm run start`
 
