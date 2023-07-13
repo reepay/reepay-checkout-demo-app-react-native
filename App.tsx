@@ -37,7 +37,6 @@ export default class App extends Component<Props> {
           <CustomStatusBar />
           <Drawer.Navigator
             initialRouteName="Home"
-            useLegacyImplementation
             screenOptions={{
               drawerType: "front",
               drawerStyle: {
