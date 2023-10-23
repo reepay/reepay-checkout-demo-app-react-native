@@ -6,9 +6,10 @@ This is an example of Reepay Checkout using [React Native](https://reactnative.d
 
 This React Native app is built with Expo CLI. The development environment is described in [React Native Docs](https://reactnative.dev/docs/environment-setup). Install node modules with `npm install`.
 
-```
-npm install -g expo-cli
-```
+Global Expo CLI is deprecated:
+~~npm install -g expo-cli~~
+
+Local Expo CLI is now included in the `expo` package. [New Expo CLI](https://blog.expo.dev/the-new-expo-cli-f4250d8e3421).
 
 ## Table of Contents
 
@@ -30,7 +31,7 @@ npm install -g expo-cli
 
 ## Available Scripts
 
-The project is built with `node version v16.15.1`, `npm version 8.11.0`, `expo version 46.0.0`, `React Native version 0.69.6` and [`React Native WebView 11.23.0`](https://github.com/react-native-webview/react-native-webview).
+The project is built with `node version v18.16.1`, `npm version 9.5.1`, `expo version 49.0.16`, `React Native version 0.72.6` and [`React Native WebView 13.2.2`](https://github.com/react-native-webview/react-native-webview).
 
 ### `npm run start`
 
