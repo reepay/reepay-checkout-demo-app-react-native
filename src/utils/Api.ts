@@ -87,10 +87,10 @@ export const Api = {
                 recurring: false,
                 recurring_optional: false,
                 order: {
-                    handle: "order_test_1686217531944",
+                    handle: orderHandle,
                     amount: 20000,
                     currency: "DKK",
-                    customer_handle: "cust-0068"
+                    customer_handle: "react-native"
                 },
                 accept_url: this.getDeepLinkingUrl() + "?accept=true",
                 // "https://sandbox.reepay.com/api/httpstatus/200/accept/" + orderHandle,
@@ -134,7 +134,7 @@ export const Api = {
      */
     generateOrderHandle(): string {
         const currentTime = new Date().getTime().toString();
-        return `order-reactnative-${currentTime}`;
+        return `order_reactnative_${currentTime}`;
     },
 
     /**
@@ -143,7 +143,7 @@ export const Api = {
      */
     generateCustomerHandle(): string {
         const currentTime = new Date().getTime().toString();
-        return `customer-reactnative-${currentTime}`;
+        return `customer_reactnative_${currentTime}`;
     },
 }
 

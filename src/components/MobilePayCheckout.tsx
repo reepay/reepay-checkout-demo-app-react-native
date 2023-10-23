@@ -80,7 +80,6 @@ function PhoneInput() {
             });
         }}
         color={"#194c85"}
-        disabled={phone.number.length !== 8}
       ></Button>
       <TextInput
         style={styles.disabledInput}

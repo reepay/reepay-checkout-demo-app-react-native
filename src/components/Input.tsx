@@ -129,13 +129,6 @@ export const Input = () => {
       <Button
         title="Create checkout"
         onPress={() => {
-          if (!sessionUrl.includes("checkout.reepay.com")) {
-            alert(
-              'Please enter a charge session URL from "https://checkout.reepay.com" or "https://staging-checkout.reepay.com"'
-            );
-            return;
-          }
-
           navigation.navigate("Checkout", {
             previousScreen: "CardCheckoutScreen",
             url: sessionUrl.trim(),

@@ -38,7 +38,7 @@ export default class Checkout extends Component<Props> {
       console.log("Initial url changed: ", event);
 
       if ((event.url as String).includes("?cancel=true")) {
-        this.props.navigation.goBack();
+        this.onCancelUrl();
         return;
       }
 
@@ -73,7 +73,13 @@ export default class Checkout extends Component<Props> {
         startInLoadingState={true}
         javaScriptEnabled={true}
         domStorageEnabled={true}
-        onShouldStartLoadWithRequest={() => true}
+        onShouldStartLoadWithRequest={(event) => {
+          if (event.url !== sessionUrl) {
+            Linking.openURL(event.url);
+            return false;
+          }
+          return true;
+        }}
         onLoadProgress={({ nativeEvent }) => {
           // console.log(nativeEvent);
         }}
@@ -149,22 +155,26 @@ export default class Checkout extends Component<Props> {
    */
   onUrlChange(response: any) {
     if (response.url.includes("cancel")) {
-      this.props.navigation.goBack("");
+      this.onCancelUrl();
       return;
     }
 
     if (response.url.includes("accept")) {
-      if (!this.state.alertShown) {
-        this.setState({ alertShown: true });
-        Alert.alert("Response", "Payment successful", [
-          {
-            text: "Go back",
-            onPress: () => {
-              this.onAcceptUrl();
-            },
+      this.onAcceptUrl();
+    }
+  }
+
+  private onCancelUrl() {
+    if (!this.state.alertShown) {
+      this.setState({ alertShown: true });
+      Alert.alert("Response", "Payment cancelled", [
+        {
+          text: "Go back",
+          onPress: () => {
+            this.props.navigation.goBack("");
           },
-        ]);
-      }
+        },
+      ]);
     }
   }
 
