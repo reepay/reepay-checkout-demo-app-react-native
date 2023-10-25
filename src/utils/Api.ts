@@ -4,6 +4,10 @@ import { GLOBALS } from "../Globals";
 export let apiKeyInput: string;
 export let deepLinkingUrl: string;
 
+interface Payload {
+    [key: string]: any
+}
+
 export const Api = {
 
     setApiKey(key: string): void { apiKeyInput = key },
@@ -75,32 +79,37 @@ export const Api = {
         if (!customerHandle) { customerHandle = this.generateCustomerHandle(); }
         if (!orderHandle) { orderHandle = this.generateOrderHandle(); }
 
+        const body: Payload = {
+            configuration: "default",
+            locale: "en_GB",
+            recurring: false,
+            recurring_optional: false,
+            order: {
+                handle: orderHandle,
+                amount: 20000,
+                currency: "DKK",
+                customer_handle: "react-native"
+            },
+            accept_url: this.getDeepLinkingUrl() + "?accept=true",
+            // "https://sandbox.reepay.com/api/httpstatus/200/accept/" + orderHandle,
+            cancel_url: this.getDeepLinkingUrl() + "?cancel=true",
+            // "https://sandbox.reepay.com/api/httpstatus/200/cancel/" + orderHandle,
+            phone: phoneNumber ? phoneNumber : "",
+        }
+
+        if (mobilepay) {
+            body.payment_methods = ["mobilepay"];
+        } else {
+            delete body.payment_methods;
+        }
+
         const requestOptions = {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: this.ApiKeyBase64(),
             },
-            body: JSON.stringify({
-                configuration: "default",
-                locale: "en_GB",
-                recurring: false,
-                recurring_optional: false,
-                order: {
-                    handle: orderHandle,
-                    amount: 20000,
-                    currency: "DKK",
-                    customer_handle: "react-native"
-                },
-                accept_url: this.getDeepLinkingUrl() + "?accept=true",
-                // "https://sandbox.reepay.com/api/httpstatus/200/accept/" + orderHandle,
-                cancel_url: this.getDeepLinkingUrl() + "?cancel=true",
-                // "https://sandbox.reepay.com/api/httpstatus/200/cancel/" + orderHandle,
-                payment_methods: [
-                    mobilepay ? "mobilepay" : "card"
-                ],
-                phone: phoneNumber ? phoneNumber : "",
-            }),
+            body: JSON.stringify(body),
         };
 
         return new Promise<object>((resolve, reject) => {
