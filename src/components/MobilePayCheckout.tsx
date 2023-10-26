@@ -1,16 +1,15 @@
-import { CommonActions, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { ReactNode, useState } from "react";
 import {
   Alert,
   Button,
-  Linking,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
-  View,
+  View
 } from "react-native";
 import { GLOBALS } from "../Globals";
 import { Api } from "../utils/Api";

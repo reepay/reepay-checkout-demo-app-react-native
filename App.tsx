@@ -20,6 +20,7 @@ import CardCheckout from "./src/components/CardCheckout";
 import { Home } from "./src/components/Home";
 import MobilePayCheckout from "./src/components/MobilePayCheckout";
 import { Api } from "./src/utils/Api";
+import TestCheckout from "./src/components/TestCheckout";
 
 const Drawer = createDrawerNavigator();
 
@@ -64,6 +65,7 @@ export default class App extends Component<Props> {
               drawerType: "front",
               drawerStyle: {
                 paddingTop: 20,
+                backgroundColor: "#fff",
               },
             }}
             drawerContent={(props) => {
@@ -123,6 +125,22 @@ export default class App extends Component<Props> {
                 drawerIcon: () => (
                   <Ionicons
                     name="phone-portrait-outline"
+                    size={20}
+                    color="#194c85"
+                  />
+                ),
+              }}
+            />
+            <Drawer.Screen
+              name="Checkout session URL"
+              component={TestCheckout}
+              options={{
+                title: "Checkout session URL",
+                headerTintColor: "#fff",
+                headerStyle: { backgroundColor: "#1eaa7d" },
+                drawerIcon: () => (
+                  <Ionicons
+                    name="globe-outline"
                     size={20}
                     color="#194c85"
                   />
