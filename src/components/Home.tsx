@@ -1,8 +1,13 @@
 import { CommonActions } from "@react-navigation/native";
 import React from "react";
 import {
-  Alert, Button, ScrollView,
-  StyleSheet, Text, View
+  Alert,
+  Button,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 
 export const Home = ({ navigation }: any) => {
@@ -21,7 +26,11 @@ export const Home = ({ navigation }: any) => {
         }}
       >
         <View style={styles.container}>
-          <Text style={styles.title}>Reepay Checkout Examples</Text>
+          <Image
+            style={styles.logo}
+            source={require("../../assets/billwerk-logo-color.png")}
+          />
+          <Text style={styles.title}>Checkout Examples</Text>
           <Button onPress={() => navigation.openDrawer()} title="Open menu" />
         </View>
       </ScrollView>
@@ -61,11 +70,17 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginHorizontal: 20,
   },
+  logo: {
+    marginTop: 100,
+    height: 100,
+    width: 250,
+    resizeMode: "contain",
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   scrollView: {
     backgroundColor: "#fff",

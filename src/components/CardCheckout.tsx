@@ -15,7 +15,7 @@ function CardCheckoutScreen({ navigation }: { navigation: any }) {
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
         <Text style={styles.title}>
-          Generate a charge session and create a Reepay Checkout
+          Generate a charge session and create a Billwerk+ Checkout
         </Text>
         <Input />
       </View>

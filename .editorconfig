@@ -1,0 +1,19 @@
+# Editor configuration, see https://editorconfig.org
+root = true
+
+[*]
+max_line_length = 150
+charset = utf-8
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.tsx]
+max_line_length = 80
+charset = unset
+end_of_line = unset
+insert_final_newline = unset
+trim_trailing_whitespace = unset
+indent_style = unset
+indent_size = unset
