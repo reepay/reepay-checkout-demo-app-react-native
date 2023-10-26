@@ -15,7 +15,7 @@ Local Expo CLI is now included in the `expo` package. [New Expo CLI](https://blo
 
 - [Available Scripts](#available-scripts)
   - [npm run start](#npm-run-start)
-  - [npm run qr](#npm-run-qr)
+  - [npm run tunnel](#npm-run-tunnel)
   - [npm run android](#npm-run-android)
   - [npm run ios](#npm-run-ios)
   - [npm run web](#npm-run-web)
@@ -41,12 +41,12 @@ Runs your app in development mode.
 npm run start
 ```
 
-### `npm run qr`
+### `npm run tunnel`
 
 Runs your app in [Expo](https://expo.dev/) development client by scanning the generated QR code. The app can be viewed using [Expo for Android](https://play.google.com/store/apps/details?id=host.exp.exponent) or [Expo Go for iOS](https://apps.apple.com/us/app/expo-go/id982107779).
 
 ```
-npm run qr
+npm run tunnel
 ```
 
 #### `npm run android`
@@ -131,7 +131,7 @@ Alternatively, run your app and add it directly in the Private API Key input fie
 
 MobilePay Online must be activated in your Reepay account under Configuration -> Payment Methods -> Mobile Payments. For Reepay Test accounts, it is required to get [`MobilePay Sandbox`](https://developer.mobilepay.dk/products/online/getting-started) app. Reepay Live accounts will use `MobilePay` app.
 
-Recommended to use `npm run qr` for testing MobilePay Checkout.
+Recommended to use `npm run tunnel` for testing MobilePay Checkout.
 
 MobilePay Online steps:
 
