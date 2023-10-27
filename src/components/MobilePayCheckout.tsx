@@ -1,10 +1,10 @@
-import { CommonActions, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { ReactNode, useState } from "react";
 import {
   Alert,
   Button,
-  Linking, SafeAreaView,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -25,7 +25,34 @@ function PhoneInput() {
   const navigation = useNavigation();
   const [apiKey, onApiKeyChange] = useState("");
   const [phone, onChangePhone] = useState({ number: "" });
+  const [customerHandle, onChangeCustomer] = useState("");
   const [sessionUrl, setSessionUrl] = useState("");
+
+  function getCustomer(): void {
+    Api.getCustomer(customerHandle).then(
+      (handle: string) => {
+        if (!handle) {
+          Alert.alert("Error", "Customer not found");
+          return;
+        }
+        createChargeSession(handle);
+      },
+      (error) => {
+        Alert.alert("Error", JSON.stringify(error));
+      }
+    );
+  }
+
+  function createChargeSession(customerHandle: string): void {
+    Api.getChargeSession(customerHandle, "", true, phone.number)
+      .then((session: { id: string; url: string; customerHandle: string }) => {
+        setSessionUrl(session.url);
+        onChangeCustomer(session.customerHandle);
+      })
+      .catch((rejected) => {
+        console.error(rejected);
+      });
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -53,7 +80,7 @@ function PhoneInput() {
           />
         </View>
       )}
-      <Text>Phone Number</Text>
+      <Text>Prefill MobilePay phone number</Text>
       <TextInput
         clearButtonMode="always"
         style={styles.input}
@@ -64,23 +91,32 @@ function PhoneInput() {
           });
         }}
         value={phone.number}
-        placeholder="12345678"
+        placeholder="<optional> e.g. 12345678"
         maxLength={8}
+      />
+      <Text>Customer handle</Text>
+      <TextInput
+        clearButtonMode="always"
+        style={styles.input}
+        onChangeText={onChangeCustomer}
+        value={customerHandle}
+        placeholder="<optional>"
       />
 
       <Button
         title="Generate"
         onPress={() => {
-          Api.getChargeSession("", "", true, phone.number)
-            .then((session: any) => {
-              setSessionUrl(session.url);
-            })
-            .catch((rejected) => {
-              console.error(rejected);
-            });
+          if (apiKey) {
+            Api.setApiKey(apiKey.trim());
+          }
+
+          if (customerHandle) {
+            getCustomer();
+          } else {
+            createChargeSession("");
+          }
         }}
         color={"#194c85"}
-        disabled={phone.number.length !== 8}
       ></Button>
       <TextInput
         style={styles.disabledInput}
@@ -89,7 +125,7 @@ function PhoneInput() {
         placeholder="<generated session url>"
       />
       <Button
-        title="Create checkout"
+        title="Create checkout webview"
         onPress={() => {
           navigation.navigate("Checkout", {
             previousScreen: "MobilePayCheckoutScreen",
@@ -108,7 +144,8 @@ function MobilePayCheckoutScreen() {
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
         <Text style={styles.title}>
-          Generate a charge session and create a MobilePay Checkout
+          Generate a charge session and create Billwerk+ Checkout with MobilePay
+          only
         </Text>
       </View>
       <PhoneInput></PhoneInput>
@@ -119,37 +156,6 @@ function MobilePayCheckoutScreen() {
 export default class MobilePayCheckout extends React.Component<Props> {
   constructor(props: any) {
     super(props);
-  }
-
-  componentDidMount() {
-    Linking.getInitialURL()
-      .then((url) => {
-        console.log("Initial url is: " + url);
-        if (url) {
-          Api.setDeepLinkingUrl(url);
-        } else {
-          throw new Error("Missing Deep Linking URL: " + url);
-        }
-      })
-      .catch((err) => {
-        console.error("Deeplinking error", err);
-        Alert.alert(
-          "Missing Deep Linking URL",
-          "Please use 'npm run qr' to test MobilePay Checkout or implement your own deep linking URL scheme.",
-          [
-            {
-              text: "OK",
-              onPress: () => {
-                const resetAction = CommonActions.reset({
-                  index: 0,
-                  routes: [{ name: "Home" }],
-                });
-                this.props.navigation.dispatch(resetAction);
-              },
-            },
-          ]
-        );
-      });
   }
 
   render(): ReactNode {

@@ -13,19 +13,53 @@ import { GLOBALS } from "../Globals";
 import { Api } from "../utils/Api";
 
 export const Input = () => {
+  const defaultSessionUrl: string = GLOBALS.TEST_CHECKOUT_SESSION_URL
+    ? GLOBALS.TEST_CHECKOUT_SESSION_URL
+    : "";
+
   const navigation = useNavigation();
   const [apiKey, onApiKeyChange] = useState("");
   const [customerHandle, onChangeCustomer] = useState("");
   const [orderHandle, onChangeOrder] = useState("");
-  const [sessionUrl, onChangedSession] = useState("");
+  const [sessionUrl, onChangedSession] = useState(defaultSessionUrl);
   const [sessionId, setId] = useState("");
 
-  function onSessionSuccess(session: any): void {
+  function getCustomer(): void {
+    Api.getCustomer(customerHandle).then(
+      (handle: string) => {
+        if (!handle) {
+          Alert.alert("Error", "Customer not found");
+          return;
+        }
+        createChargeSession(handle);
+      },
+      (error) => {
+        Alert.alert("Error", JSON.stringify(error));
+      }
+    );
+  }
+
+  function createChargeSession(customerHandle: string): void {
+    Api.getChargeSession(customerHandle, orderHandle)
+      .then((session: { id: string; url: string; customerHandle: string }) => {
+        onSessionSuccess(session);
+      })
+      .catch((rejected) => {
+        onSessionError(rejected);
+      });
+  }
+
+  function onSessionSuccess(session: {
+    id: string;
+    url: string;
+    customerHandle: string;
+  }): void {
     Alert.alert("Response", JSON.stringify(session), [
       {
-        text: "Create session",
+        text: "Enter session",
         onPress: () => {
           console.log("Session:", session);
+          onChangeCustomer(session.customerHandle);
           onChangedSession(session.url);
           setId(session.id);
         },
@@ -53,7 +87,7 @@ export const Input = () => {
             onApiKeyChange("");
             onChangeOrder("");
             onChangeCustomer("");
-            onChangedSession("");
+            onChangedSession(defaultSessionUrl);
             setId("");
           }}
           color={"#194c85"}
@@ -90,31 +124,34 @@ export const Input = () => {
         placeholder="<optional>"
       />
       <Button
-        title="Generate"
+        title="Generate session"
         onPress={() => {
           if (apiKey) {
             Api.setApiKey(apiKey.trim());
           }
 
-          Api.getChargeSession(customerHandle, orderHandle)
-            .then((session: any) => {
-              onSessionSuccess(session);
-            })
-            .catch((rejected) => {
-              onSessionError(rejected);
-            });
+          if (customerHandle) {
+            getCustomer();
+          } else {
+            createChargeSession("");
+          }
         }}
         color={"#194c85"}
         disabled={sessionUrl.length > 0}
       ></Button>
       <View style={styles.separator} />
-      <Text>Generated charge session</Text>
+      <Text>Generated checkout session</Text>
       <TextInput
         clearButtonMode="always"
         style={styles.input}
-        onChangeText={onChangedSession}
+        onChangeText={(text) => {
+          onChangedSession(text);
+          if (!text) {
+            setId("");
+          }
+        }}
         value={sessionUrl}
-        placeholder="<generated session url>"
+        placeholder="https://checkout.reepay.com/#/<id>"
       />
       <TextInput
         style={styles.disabledInput}
@@ -123,12 +160,11 @@ export const Input = () => {
         placeholder="<generated session id>"
       />
       <Button
-        title="Create checkout"
+        title="Create checkout webview"
         onPress={() => {
-          if (!sessionUrl.includes("https://checkout.reepay.com")) {
-            alert(
-              'Please enter a charge session URL from "https://checkout.reepay.com"'
-            );
+          if (!sessionUrl.startsWith("https://" || "http://")) {
+            Alert.alert("Error", "Url must start with https:// or http://");
+            onChangedSession(`https://${sessionUrl}`);
             return;
           }
 

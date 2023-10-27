@@ -1,21 +1,26 @@
 import { Ionicons } from "@expo/vector-icons";
 import {
   createDrawerNavigator,
-  DrawerItemList
+  DrawerItemList,
 } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
 import React, { Component } from "react";
 import {
-  Image, Platform,
+  Alert,
+  Image,
+  Linking,
+  Platform,
   SafeAreaView,
   StatusBar,
-  View
+  View,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import CardCheckout from "./src/components/CardCheckout";
 import { Home } from "./src/components/Home";
 import MobilePayCheckout from "./src/components/MobilePayCheckout";
+import { Api } from "./src/utils/Api";
+import TestCheckout from "./src/components/TestCheckout";
 
 const Drawer = createDrawerNavigator();
 
@@ -30,6 +35,25 @@ const CustomStatusBar = () => {
 
 type Props = {};
 export default class App extends Component<Props> {
+  componentDidMount(): void {
+    Linking.getInitialURL()
+      .then((url) => {
+        console.log("Deep Linking URL: " + url);
+        if (url) {
+          Api.setDeepLinkingUrl(url);
+        } else {
+          throw new Error("Missing Deep Linking URL: " + url);
+        }
+      })
+      .catch((err) => {
+        console.error("Deeplinking error", err);
+        Alert.alert(
+          "Missing Deep Linking URL",
+          "Please run 'npm run qr' or implement your own deep linking URL scheme."
+        );
+      });
+  }
+
   render() {
     return (
       <SafeAreaProvider>
@@ -37,11 +61,11 @@ export default class App extends Component<Props> {
           <CustomStatusBar />
           <Drawer.Navigator
             initialRouteName="Home"
-            useLegacyImplementation
             screenOptions={{
               drawerType: "front",
               drawerStyle: {
                 paddingTop: 20,
+                backgroundColor: "#fff",
               },
             }}
             drawerContent={(props) => {
@@ -55,7 +79,7 @@ export default class App extends Component<Props> {
                     }}
                   >
                     <Image
-                      source={require("./assets/reepay-logo-color.png")}
+                      source={require("./assets/billwerk-logo-color.png")}
                       style={{ flex: 1, width: 200, height: 100 }}
                       resizeMode="contain"
                     />
@@ -101,6 +125,22 @@ export default class App extends Component<Props> {
                 drawerIcon: () => (
                   <Ionicons
                     name="phone-portrait-outline"
+                    size={20}
+                    color="#194c85"
+                  />
+                ),
+              }}
+            />
+            <Drawer.Screen
+              name="Checkout session URL"
+              component={TestCheckout}
+              options={{
+                title: "Checkout session URL",
+                headerTintColor: "#fff",
+                headerStyle: { backgroundColor: "#1eaa7d" },
+                drawerIcon: () => (
+                  <Ionicons
+                    name="globe-outline"
                     size={20}
                     color="#194c85"
                   />
