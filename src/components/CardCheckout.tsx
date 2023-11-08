@@ -42,7 +42,8 @@ export default class CardCheckout extends Component<Props> {
           name="Checkout"
           component={Checkout}
           options={{
-            headerShown: false,
+            headerShown: true,
+            title: "React Native WebView",
           }}
         />
       </Stack.Navigator>

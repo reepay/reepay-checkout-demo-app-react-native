@@ -93,7 +93,8 @@ export default class TestCheckout extends React.Component<Props> {
           name="Checkout"
           component={Checkout}
           options={{
-            headerShown: false,
+            headerShown: true,
+            title: "React Native WebView",
           }}
         />
       </Stack.Navigator>

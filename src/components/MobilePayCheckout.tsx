@@ -9,7 +9,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  View
+  View,
 } from "react-native";
 import { GLOBALS } from "../Globals";
 import { Api } from "../utils/Api";
@@ -172,7 +172,8 @@ export default class MobilePayCheckout extends React.Component<Props> {
           name="Checkout"
           component={Checkout}
           options={{
-            headerShown: false,
+            headerShown: true,
+            title: "React Native WebView",
           }}
         />
       </Stack.Navigator>

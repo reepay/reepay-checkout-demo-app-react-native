@@ -120,7 +120,7 @@ export const Api = {
             recurring_optional: false,
             order: {
                 handle: orderHandle,
-                amount: 20000,
+                amount: 30000,
                 currency: "DKK",
             },
             accept_url: `${this.getDeepLinkingUrl()}?accept=true`,

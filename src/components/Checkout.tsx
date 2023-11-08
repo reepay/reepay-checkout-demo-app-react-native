@@ -14,6 +14,7 @@ export default class Checkout extends Component<Props> {
   private sessionUrl: string;
   private previousScreen: string;
   private listener: EmitterSubscription | undefined;
+  private webview: WebView | null | undefined;
 
   state: {
     alertShown: boolean;
@@ -60,6 +61,26 @@ export default class Checkout extends Component<Props> {
     this.listener?.remove();
   }
 
+  openWebviewUrl(url: string) {
+    Linking.canOpenURL(url)
+      .then((supported) => {
+        if (supported) {
+          Linking.openURL(url)
+            .then(() => {
+              console.log("Redirecting to:", url);
+            })
+            .catch((err) =>
+              console.log("[Linking.openURL] error occurred", err)
+            );
+        } else {
+          console.error("Could not open: ", url);
+        }
+      })
+      .catch((reason) => {
+        console.error("[Linking.canOpenURL] error reason:", reason);
+      });
+  }
+
   render(): ReactNode {
     const runFirst = `
       window.isNativeApp = true;
@@ -71,11 +92,13 @@ export default class Checkout extends Component<Props> {
 
     return (
       <WebView
+        ref={(ref) => (this.webview = ref)}
         source={{
           // todo: change here for testing webview url vs. html
           uri: sessionUrl, // with url
           // html: this.getReepayHtml(this.sessionId), // with html
         }}
+        originWhitelist={["*"]} // allow all URIs to load
         style={{ marginVertical: 30 }}
         onLoadEnd={() => {}}
         startInLoadingState={true}
@@ -83,8 +106,7 @@ export default class Checkout extends Component<Props> {
         domStorageEnabled={true}
         onShouldStartLoadWithRequest={(event) => {
           if (event.url !== sessionUrl) {
-            console.log("Redirecting to:", event.url);
-            Linking.openURL(event.url);
+            this.openWebviewUrl(event.url);
             return false;
           }
           return true;
