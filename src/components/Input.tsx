@@ -121,7 +121,7 @@ export const Input = () => {
         style={styles.input}
         onChangeText={onChangeCustomer}
         value={customerHandle}
-        placeholder="<optional>"
+        placeholder="<optional existing customer>"
       />
       <Button
         title="Generate session"

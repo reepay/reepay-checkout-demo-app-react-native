@@ -1,4 +1,5 @@
 import { CommonActions } from "@react-navigation/native";
+import Constants from "expo-constants";
 import React, { Component, ReactNode } from "react";
 import { Alert, EmitterSubscription, Linking, Platform } from "react-native";
 import WebView from "react-native-webview";
@@ -46,6 +47,13 @@ export default class Checkout extends Component<Props> {
         this.onAcceptUrl();
       }
     });
+
+    Constants.getWebViewUserAgentAsync().then((userAgent) => {
+      console.log(
+        "Checkout ~ Constants.getWebViewUserAgentAsync ~ userAgent:",
+        userAgent
+      );
+    });
   }
 
   componentWillUnmount() {
@@ -75,6 +83,7 @@ export default class Checkout extends Component<Props> {
         domStorageEnabled={true}
         onShouldStartLoadWithRequest={(event) => {
           if (event.url !== sessionUrl) {
+            console.log("Redirecting to:", event.url);
             Linking.openURL(event.url);
             return false;
           }
@@ -123,7 +132,7 @@ export default class Checkout extends Component<Props> {
    * Handle MobilePay Online url redirects
    */
   onMpUrlChange(response: any) {
-    console.log(response);
+    console.log("Checkout ~ onMpUrlChange ~ response:", response);
 
     if (response.url.includes("accept")) {
       this.onAcceptUrl();
