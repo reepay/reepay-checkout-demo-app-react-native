@@ -17,10 +17,11 @@ import {
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import CardCheckout from "./src/components/CardCheckout";
+import CheckoutWebBrowser from "./src/components/CheckoutWebBrowser";
 import { Home } from "./src/components/Home";
 import MobilePayCheckout from "./src/components/MobilePayCheckout";
-import { Api } from "./src/utils/Api";
 import TestCheckout from "./src/components/TestCheckout";
+import { Api } from "./src/utils/Api";
 
 const Drawer = createDrawerNavigator();
 
@@ -132,18 +133,26 @@ export default class App extends Component<Props> {
               }}
             />
             <Drawer.Screen
-              name="Checkout session URL"
+              name="Checkout WebView"
               component={TestCheckout}
               options={{
-                title: "Checkout session URL",
+                title: "Checkout WebView",
                 headerTintColor: "#fff",
                 headerStyle: { backgroundColor: "#1eaa7d" },
                 drawerIcon: () => (
-                  <Ionicons
-                    name="globe-outline"
-                    size={20}
-                    color="#194c85"
-                  />
+                  <Ionicons name="globe-outline" size={20} color="#194c85" />
+                ),
+              }}
+            />
+            <Drawer.Screen
+              name="Checkout WebBrowser"
+              component={CheckoutWebBrowser}
+              options={{
+                title: "Checkout WebBrowser",
+                headerTintColor: "#fff",
+                headerStyle: { backgroundColor: "#1eaa7d" },
+                drawerIcon: () => (
+                  <Ionicons name="browsers-outline" size={20} color="#194c85" />
                 ),
               }}
             />

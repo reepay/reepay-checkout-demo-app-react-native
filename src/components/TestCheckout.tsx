@@ -1,6 +1,7 @@
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { ReactNode, useEffect, useState } from "react";
+import * as Clipboard from "expo-clipboard";
+import React, { ReactNode, useState } from "react";
 import {
   Alert,
   Button,
@@ -13,8 +14,7 @@ import {
   View,
 } from "react-native";
 import { GLOBALS } from "../Globals";
-import Checkout from "./Checkout";
-import * as Clipboard from "expo-clipboard";
+import Checkout from "./CheckoutWebView";
 
 interface Props {
   navigation: any;
@@ -39,7 +39,7 @@ function SessionUrlInput() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={{ marginTop: 40 }}>Add URL</Text>
+      <Text style={{ marginTop: 40 }}>Add checkout session URL</Text>
       <TextInput
         clearButtonMode="always"
         style={styles.input}
@@ -49,9 +49,11 @@ function SessionUrlInput() {
         value={sessionUrl}
         placeholder="https://checkout.reepay.com/#/<id>"
       />
-      <TouchableOpacity onPress={copyToClipboard}>
-        <Text style={styles.urlText}>{sessionUrl}</Text>
-      </TouchableOpacity>
+      {sessionUrl ? (
+        <TouchableOpacity onPress={copyToClipboard}>
+          <Text style={styles.urlText}>{sessionUrl}</Text>
+        </TouchableOpacity>
+      ) : null}
       {clipboardText ? (
         <Text style={styles.clipboardText}>{clipboardText}</Text>
       ) : null}
@@ -76,7 +78,7 @@ function SessionUrlInput() {
         }}
         disabled={!sessionUrl}
         color={"#194c85"}
-      ></Button>
+      />
     </SafeAreaView>
   );
 }
@@ -85,7 +87,7 @@ function TestCheckoutScreen() {
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
-        <Text style={styles.title}>Open checkout session URL directly</Text>
+        <Text style={styles.title}>Open checkout in WebView</Text>
         <Text style={styles.subtitle}>Charge | Recurring | Subscription</Text>
       </View>
       <SessionUrlInput />
@@ -105,7 +107,8 @@ export default class TestCheckout extends React.Component<Props> {
           name="TestCheckoutScreen"
           component={TestCheckoutScreen}
           options={{
-            headerShown: false,
+            headerShown: true,
+            title: "React Native WebView",
           }}
         ></Stack.Screen>
         <Stack.Screen

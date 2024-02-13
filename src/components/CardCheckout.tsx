@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { Component, ReactNode } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import Checkout from "./Checkout";
+import Checkout from "./CheckoutWebView";
 import { Input } from "./Input";
 
 interface Props {

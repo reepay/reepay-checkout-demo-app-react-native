@@ -9,7 +9,7 @@ interface Props {
   navigation: any;
 }
 
-export default class Checkout extends Component<Props> {
+export default class CheckoutWebView extends Component<Props> {
   private sessionId: string;
   private sessionUrl: string;
   private previousScreen: string;
@@ -116,7 +116,7 @@ export default class Checkout extends Component<Props> {
         // injectedJavaScriptBeforeContentLoaded={runFirst}
         onNavigationStateChange={(state) => {
           console.log(
-            "🚀 ~ file: Checkout.tsx:82 ~ Checkout ~ render ~ state:",
+            "🚀 CheckoutWebView ~ onNavigationStateChange ~ state:",
             state
           );
 

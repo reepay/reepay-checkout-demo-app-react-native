@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { GLOBALS } from "../Globals";
 import { Api } from "../utils/Api";
-import Checkout from "./Checkout";
+import Checkout from "./CheckoutWebView";
 
 interface Props {
   navigation: any;

@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
@@ -81,7 +82,10 @@ export const Input = () => {
   }
 
   function copyToClipboard(): void {
-    Clipboard.setStringAsync(sessionUrl);
+    if (sessionUrl && sessionId) {
+      Clipboard.setStringAsync(sessionUrl);
+      Alert.alert("Copied to Clipboard", `${sessionUrl}`);
+    }
   }
 
   return (
@@ -161,7 +165,9 @@ export const Input = () => {
       />
       <TouchableOpacity onPress={copyToClipboard}>
         <Text style={styles.disabledText}>
-          {sessionId ?? "<generated session id>"}
+          {sessionId ? sessionId : "<generated session id>"}
+          <Text> </Text>
+          {sessionId ? <Ionicons name="copy-outline" size={12} /> : null}
         </Text>
       </TouchableOpacity>
       <Button
