@@ -1,6 +1,6 @@
-import { useNavigation } from "@react-navigation/native";
+import { CommonActions, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import {
   Alert,
   Button,
@@ -9,10 +9,12 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { GLOBALS } from "../Globals";
 import Checkout from "./Checkout";
+import * as Clipboard from "expo-clipboard";
 
 interface Props {
   navigation: any;
@@ -27,6 +29,13 @@ function SessionUrlInput() {
 
   const navigation = useNavigation();
   const [sessionUrl, setSessionUrl] = useState(defaultSessionUrl);
+  const [clipboardText, setClipboardText] = useState("");
+
+  const copyToClipboard = () => {
+    Clipboard.setStringAsync(sessionUrl);
+    setClipboardText("Copied to clipboard");
+    setTimeout(() => setClipboardText(""), 3000);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -40,7 +49,12 @@ function SessionUrlInput() {
         value={sessionUrl}
         placeholder="https://checkout.reepay.com/#/<id>"
       />
-      <Text style={styles.urlText}>{sessionUrl}</Text>
+      <TouchableOpacity onPress={copyToClipboard}>
+        <Text style={styles.urlText}>{sessionUrl}</Text>
+      </TouchableOpacity>
+      {clipboardText ? (
+        <Text style={styles.clipboardText}>{clipboardText}</Text>
+      ) : null}
       <Button
         title="Create checkout webview"
         onPress={() => {
@@ -50,10 +64,15 @@ function SessionUrlInput() {
             return;
           }
 
-          navigation.navigate("Checkout", {
-            previousScreen: "TestCheckoutScreen",
-            url: sessionUrl.trim(),
-          });
+          navigation.dispatch(
+            CommonActions.navigate({
+              name: "Checkout",
+              params: {
+                previousScreen: "TestCheckoutScreen",
+                url: sessionUrl.trim(),
+              },
+            })
+          );
         }}
         disabled={!sessionUrl}
         color={"#194c85"}
@@ -137,5 +156,9 @@ const styles = StyleSheet.create({
   },
   urlText: {
     padding: 20,
+  },
+  clipboardText: {
+    paddingBottom: 20,
+    color: "#1eaa7d",
   },
 });

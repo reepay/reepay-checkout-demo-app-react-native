@@ -23,7 +23,7 @@ export default class Checkout extends Component<Props> {
 
   constructor(props: any) {
     super(props);
-    // console.log(props.route.params)
+    // console.log(JSON.stringify(props.route.params));
 
     this.sessionId = props.route.params.id;
     this.sessionUrl = props.route.params.url;
@@ -86,9 +86,8 @@ export default class Checkout extends Component<Props> {
       window.isNativeApp = true;
       true; // note: this is required, or you'll sometimes get silent failures
     `;
-    const sessionUrl: string = GLOBALS.TEST_CHECKOUT_SESSION_URL
-      ? GLOBALS.TEST_CHECKOUT_SESSION_URL
-      : this.sessionUrl;
+    const sessionUrl: string =
+      this.sessionUrl ?? GLOBALS.TEST_CHECKOUT_SESSION_URL;
 
     return (
       <WebView

@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { CommonActions, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { ReactNode, useState } from "react";
 import {
@@ -127,10 +127,15 @@ function PhoneInput() {
       <Button
         title="Create checkout webview"
         onPress={() => {
-          navigation.navigate("Checkout", {
-            previousScreen: "MobilePayCheckoutScreen",
-            url: sessionUrl,
-          });
+          navigation.dispatch(
+            CommonActions.navigate({
+              name: "Checkout",
+              params: {
+                previousScreen: "MobilePayCheckoutScreen",
+                url: sessionUrl,
+              },
+            })
+          );
         }}
         disabled={!sessionUrl}
         color={"#194c85"}

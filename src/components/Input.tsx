@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { CommonActions, useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
   Alert,
@@ -7,10 +7,12 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { GLOBALS } from "../Globals";
 import { Api } from "../utils/Api";
+import * as Clipboard from "expo-clipboard";
 
 export const Input = () => {
   const defaultSessionUrl: string = GLOBALS.TEST_CHECKOUT_SESSION_URL
@@ -76,6 +78,10 @@ export const Input = () => {
         },
       },
     ]);
+  }
+
+  function copyToClipboard(): void {
+    Clipboard.setStringAsync(sessionUrl);
   }
 
   return (
@@ -153,12 +159,11 @@ export const Input = () => {
         value={sessionUrl}
         placeholder="https://checkout.reepay.com/#/<id>"
       />
-      <TextInput
-        style={styles.disabledInput}
-        editable={false}
-        value={sessionId}
-        placeholder="<generated session id>"
-      />
+      <TouchableOpacity onPress={copyToClipboard}>
+        <Text style={styles.disabledText}>
+          {sessionId ?? "<generated session id>"}
+        </Text>
+      </TouchableOpacity>
       <Button
         title="Create checkout webview"
         onPress={() => {
@@ -168,11 +173,16 @@ export const Input = () => {
             return;
           }
 
-          navigation.navigate("Checkout", {
-            previousScreen: "CardCheckoutScreen",
-            url: sessionUrl.trim(),
-            id: sessionId.trim(),
-          });
+          navigation.dispatch(
+            CommonActions.navigate({
+              name: "Checkout",
+              params: {
+                previousScreen: "CardCheckoutScreen",
+                url: sessionUrl.trim(),
+                id: sessionId.trim(),
+              },
+            })
+          );
         }}
         disabled={!sessionUrl}
         color={"#194c85"}
@@ -201,13 +211,15 @@ const styles = StyleSheet.create({
     borderBottomColor: "#737373",
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  disabledInput: {
+  disabledText: {
     width: 300,
-    height: 50,
+    height: 35,
     margin: 10,
     borderWidth: 0.2,
     borderColor: "#737373",
     padding: 10,
     color: "#737373",
+    fontSize: 12,
+    textAlign: "center",
   },
 });
