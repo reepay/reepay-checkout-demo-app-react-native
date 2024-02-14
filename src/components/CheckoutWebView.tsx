@@ -73,7 +73,7 @@ export default class CheckoutWebView extends Component<Props> {
               console.log("[Linking.openURL] error occurred", err)
             );
         } else {
-          console.error("Could not open: ", url);
+          console.error("[Linking.canOpenURL] Could not open URL:", url);
         }
       })
       .catch((reason) => {

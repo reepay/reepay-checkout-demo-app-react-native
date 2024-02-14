@@ -33,6 +33,38 @@ export const Api = {
     },
 
     /**
+     * Returns customers
+     * @returns Promise<Customer> e.g. { handle: 'customer-007', ... }
+     */
+    getCustomers(): Promise<object[]> {
+        const requestOptions = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: this.ApiKeyBase64(),
+            },
+        };
+
+        return new Promise<object[]>((resolve, reject) => {
+            fetch(`${GLOBALS.REEPAY_API}/list/customer?interval=P100Y&size=40`, requestOptions)
+                .then(async (response) => {
+                    const isJson = response.headers.get("content-type")?.includes("application/json");
+                    const data = isJson && (await response.json());
+
+                    resolve(data.content);
+
+                    if (!response.ok) {
+                        const error = (data && data.message) || response.status;
+                        reject(error);
+                    }
+                })
+                .catch((error) => {
+                    console.error("There was an error!", error);
+                });
+        });
+    },
+
+    /**
      * Returns customer
      * @returns Promise<string> e.g. customer-007
      */
@@ -46,7 +78,7 @@ export const Api = {
         };
 
         return new Promise<string>((resolve, reject) => {
-            fetch(`${GLOBALS.REEPAY_API_CUSTOMER_URL}/${handle}`, requestOptions)
+            fetch(`${GLOBALS.REEPAY_API}/customer/${handle}`, requestOptions)
                 .then(async (response) => {
                     const isJson = response.headers.get("content-type")?.includes("application/json");
                     const data = isJson && (await response.json());
@@ -83,7 +115,7 @@ export const Api = {
         };
 
         return new Promise<object>((resolve, reject) => {
-            fetch(GLOBALS.REEPAY_CHECKOUT_API_SESSION_URL, requestOptions)
+            fetch(`${GLOBALS.REEPAY_CHECKOUT_API}/session/charge`, requestOptions)
                 .then(async (response) => {
                     const isJson = response.headers.get("content-type")?.includes("application/json");
                     const data = isJson && (await response.json());

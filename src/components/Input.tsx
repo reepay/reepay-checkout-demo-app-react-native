@@ -42,6 +42,25 @@ export const Input = () => {
     );
   }
 
+  function getRecentCustomer(): void {
+    Api.getCustomers().then(
+      (customers: any[]) => {
+        if (!customers?.length) {
+          Alert.alert("No customers found");
+          return;
+        }
+        onChangeCustomer(customers[0].handle as string);
+        Alert.alert(
+          `Added recent customer handle (${new Date(customers[0].created)}):\n`,
+          customers[0].handle
+        );
+      },
+      (error) => {
+        Alert.alert("Error", JSON.stringify(error));
+      }
+    );
+  }
+
   function createChargeSession(customerHandle: string): void {
     Api.getChargeSession(customerHandle, orderHandle)
       .then((session: { id: string; url: string; customerHandle: string }) => {
@@ -125,14 +144,28 @@ export const Input = () => {
         value={orderHandle}
         placeholder="<optional>"
       />
-      <Text>Customer handle</Text>
-      <TextInput
-        clearButtonMode="always"
-        style={styles.input}
-        onChangeText={onChangeCustomer}
-        value={customerHandle}
-        placeholder="<optional existing customer>"
-      />
+      <Text>
+        Customer handle
+        <Text> </Text>
+        {!customerHandle ? (
+          <Ionicons
+            name="repeat-outline"
+            size={16}
+            color="#194c85"
+            onPress={getRecentCustomer}
+          />
+        ) : null}
+      </Text>
+
+      <View>
+        <TextInput
+          clearButtonMode="always"
+          style={styles.input}
+          onChangeText={onChangeCustomer}
+          value={customerHandle}
+          placeholder="<optional existing customer>"
+        />
+      </View>
       <Button
         title="Generate session"
         onPress={() => {

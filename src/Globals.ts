@@ -1,6 +1,6 @@
 export enum GLOBALS {
     REEPAY_PRIVATE_API_KEY = "",
-    REEPAY_CHECKOUT_API_SESSION_URL = "https://checkout-api.reepay.com/v1/session/charge",
-    REEPAY_API_CUSTOMER_URL = "https://api.reepay.com/v1/customer",
+    REEPAY_API = "https://api.reepay.com/v1",
+    REEPAY_CHECKOUT_API = "https://checkout-api.reepay.com/v1",
     TEST_CHECKOUT_SESSION_URL = "", // for testing session url directly in CardCheckout.tsx
 }
