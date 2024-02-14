@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { ReactNode, useState } from "react";
@@ -36,6 +37,25 @@ function PhoneInput() {
           return;
         }
         createChargeSession(handle);
+      },
+      (error) => {
+        Alert.alert("Error", JSON.stringify(error));
+      }
+    );
+  }
+
+  function getRecentCustomer(): void {
+    Api.getCustomers().then(
+      (customers: any[]) => {
+        if (!customers?.length) {
+          Alert.alert("No customers found");
+          return;
+        }
+        onChangeCustomer(customers[0].handle as string);
+        Alert.alert(
+          `Added recent customer handle (${new Date(customers[0].created)}):\n`,
+          customers[0].handle
+        );
       },
       (error) => {
         Alert.alert("Error", JSON.stringify(error));
@@ -94,7 +114,18 @@ function PhoneInput() {
         placeholder="<optional> e.g. 12345678"
         maxLength={8}
       />
-      <Text>Customer handle</Text>
+      <Text>
+        Customer handle
+        <Text> </Text>
+        {!customerHandle ? (
+          <Ionicons
+            name="repeat-outline"
+            size={16}
+            color="#194c85"
+            onPress={getRecentCustomer}
+          />
+        ) : null}
+      </Text>
       <TextInput
         clearButtonMode="always"
         style={styles.input}

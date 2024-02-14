@@ -3,6 +3,7 @@ import Constants from "expo-constants";
 import React, { Component, ReactNode } from "react";
 import { Alert, EmitterSubscription, Linking, Platform } from "react-native";
 import WebView from "react-native-webview";
+import { ShouldStartLoadRequest } from "react-native-webview/lib/WebViewTypes";
 import { GLOBALS } from "../Globals";
 
 interface Props {
@@ -82,10 +83,6 @@ export default class CheckoutWebView extends Component<Props> {
   }
 
   render(): ReactNode {
-    const runFirst = `
-      window.isNativeApp = true;
-      true; // note: this is required, or you'll sometimes get silent failures
-    `;
     const sessionUrl: string =
       this.sessionUrl ?? GLOBALS.TEST_CHECKOUT_SESSION_URL;
 
@@ -103,7 +100,18 @@ export default class CheckoutWebView extends Component<Props> {
         startInLoadingState={true}
         javaScriptEnabled={true}
         domStorageEnabled={true}
-        onShouldStartLoadWithRequest={(event) => {
+        pullToRefreshEnabled={true}
+        onShouldStartLoadWithRequest={(event: ShouldStartLoadRequest) => {
+          /**
+           * Special case handling iframes for iOS
+           * isFirstLoad is needed b/c onShouldStartLoadWithRequest is called on first load
+           * isTopFrame is needed to separate iframe requests from topframe requests
+           */
+          if (Platform.OS === "ios") {
+            const isFirstLoad = event.url === sessionUrl && !event.canGoBack;
+            if (!event.isTopFrame || isFirstLoad) return true;
+          }
+
           if (event.url !== sessionUrl) {
             this.openWebviewUrl(event.url);
             return false;
@@ -113,7 +121,6 @@ export default class CheckoutWebView extends Component<Props> {
         onLoadProgress={({ nativeEvent }) => {
           // console.log(nativeEvent);
         }}
-        // injectedJavaScriptBeforeContentLoaded={runFirst}
         onNavigationStateChange={(state) => {
           console.log(
             "🚀 CheckoutWebView ~ onNavigationStateChange ~ state:",
