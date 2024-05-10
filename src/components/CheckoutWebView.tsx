@@ -11,6 +11,8 @@ import {
 import WebView from "react-native-webview";
 import { ShouldStartLoadRequest } from "react-native-webview/lib/WebViewTypes";
 import { GLOBALS } from "../Globals";
+import { Api } from "../utils/Api";
+import { getLogger } from "../utils/Logger";
 
 interface Props {
   navigation: any;
@@ -22,6 +24,8 @@ export default class CheckoutWebView extends Component<Props> {
   private previousScreen: string;
   private listener: EmitterSubscription | undefined;
   private webview: WebView | null | undefined;
+
+  private logger = getLogger();
 
   state: {
     alertShown: boolean;
@@ -61,7 +65,7 @@ export default class CheckoutWebView extends Component<Props> {
     });
 
     Constants.getWebViewUserAgentAsync().then((userAgent) => {
-      console.info("Constants.getWebViewUserAgentAsync:", userAgent);
+      this.logger.info("Constants.getWebViewUserAgentAsync:", userAgent);
     });
   }
 
@@ -69,31 +73,53 @@ export default class CheckoutWebView extends Component<Props> {
     this.listener?.remove();
   }
 
-  private _openWebviewUrl(url: string) {
+  private _openUrl(url: string) {
     const isHyperTextUrl: boolean = url.startsWith("http");
+    const isMobilePayUrl: boolean = url.includes("mobilepay.dk"); // TODO: MobilePay uses https first, then redirects to mobilepay://
+    const isDeepLinkingUrl: boolean = url.includes(Api.getDeepLinkingUrl());
+    const isStagingUrl: boolean = url.includes(
+      "https://staging-checkout-api.reepay.com/redirect"
+    );
 
-    // Open URL in external browser / app switch
-    if (!isHyperTextUrl) {
-      Linking.openURL(url)
-        .then(() => {
-          console.log("Redirecting to:", url);
-        })
-        .catch((err) => console.error("[Linking.openURL] error occurred", err));
+    if (
+      // (!isHyperTextUrl && !isDeepLinkingUrl) ||
+      // isMobilePayUrl ||
+      !isStagingUrl &&
+      !isDeepLinkingUrl
+    ) {
+      this._openExternalBrowser(url);
       return;
     }
 
-    // Load URL within webview
+    if (isHyperTextUrl) {
+      this._openInWebView(url);
+      return;
+    }
+  }
+
+  // Load URL within webview
+  private _openInWebView(url: string) {
     Linking.canOpenURL(url)
       .then((supported: boolean) => {
         if (!supported) {
           console.error("[Linking.canOpenURL] Could not open URL:", url);
           return;
         }
+        this.logger.info("[_openInWebView] URL:", url);
         this.setState({ url: url, shouldLoad: true });
       })
       .catch((reason) => {
         console.error("[Linking.canOpenURL] error reason:", reason);
       });
+  }
+
+  // Open URL in external browser / app switch
+  private _openExternalBrowser(url: string) {
+    Linking.openURL(url)
+      .then(() => {
+        this.logger.info("[_openExternalBrowser] URL:", url);
+      })
+      .catch((err) => console.error("[Linking.openURL] error occurred", err));
   }
 
   render(): ReactNode {
@@ -112,7 +138,7 @@ export default class CheckoutWebView extends Component<Props> {
           originWhitelist={["*"]} // allow all URIs to load
           style={{ marginVertical: 30 }}
           onLoadEnd={(event: any) => {
-            console.info("event.nativeEvent.url", event.nativeEvent?.url);
+            this.logger.debug("event.nativeEvent.url", event.nativeEvent?.url);
             this.setState({ url: event.nativeEvent?.url, shouldLoad: false });
           }}
           startInLoadingState={true}
@@ -131,7 +157,7 @@ export default class CheckoutWebView extends Component<Props> {
             }
 
             if (event.url !== sessionUrl) {
-              this._openWebviewUrl(event.url);
+              this._openUrl(event.url);
               return this.state.shouldLoad;
             }
             return true;
@@ -140,10 +166,7 @@ export default class CheckoutWebView extends Component<Props> {
             // console.log(nativeEvent);
           }}
           onNavigationStateChange={(state) => {
-            console.log(
-              "🚀 CheckoutWebView ~ onNavigationStateChange ~ state:",
-              state
-            );
+            // this.logger.debug("[WebView][onNavigationStateChange]", state);
 
             if (this.previousScreen === "MobilePayCheckoutScreen") {
               this._onMpUrlChange(state);

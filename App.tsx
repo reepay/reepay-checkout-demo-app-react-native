@@ -50,7 +50,7 @@ export default class App extends Component<Props> {
         console.error("Deeplinking error", err);
         Alert.alert(
           "Missing Deep Linking URL",
-          "Please run 'npm run qr' or implement your own deep linking URL scheme."
+          "Please run 'npm run tunnel' or implement your own deep linking URL scheme."
         );
       });
   }
