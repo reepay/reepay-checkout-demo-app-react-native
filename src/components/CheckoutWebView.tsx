@@ -51,7 +51,7 @@ export default class CheckoutWebView extends Component<Props> {
   }
 
   componentDidMount() {
-    this.listener = Linking.addEventListener("url", (event) => {
+    this.listener = Linking.addEventListener("url", (event: any) => {
       console.log("Initial url changed: ", event);
 
       if ((event.url as String).includes("?cancel=true")) {
@@ -64,7 +64,7 @@ export default class CheckoutWebView extends Component<Props> {
       }
     });
 
-    Constants.getWebViewUserAgentAsync().then((userAgent) => {
+    Constants.getWebViewUserAgentAsync().then((userAgent: string) => {
       this.logger.info("Constants.getWebViewUserAgentAsync:", userAgent);
     });
   }
@@ -75,22 +75,22 @@ export default class CheckoutWebView extends Component<Props> {
 
   private _openUrl(url: string) {
     const isHyperTextUrl: boolean = url.startsWith("http");
-    const isMobilePayUrl: boolean = url.includes("mobilepay.dk"); // TODO: MobilePay uses https first, then redirects to mobilepay://
     const isDeepLinkingUrl: boolean = url.includes(Api.getDeepLinkingUrl());
-    const isStagingUrl: boolean = url.includes(
+    const isStagingRedirectUrl: boolean = url.includes(
       "https://staging-checkout-api.reepay.com/redirect"
     );
+    const isMobilePaymentMethod: boolean =
+      url.includes("mobilepay") ||
+      url.includes("swish") ||
+      url.includes("vipps");
 
-    if (
-      // (!isHyperTextUrl && !isDeepLinkingUrl) ||
-      // isMobilePayUrl ||
-      !isStagingUrl &&
-      !isDeepLinkingUrl
-    ) {
+    // * Trigger app switch:
+    if (isMobilePaymentMethod && !isStagingRedirectUrl && !isDeepLinkingUrl) {
       this._openExternalBrowser(url);
       return;
     }
 
+    // * Stay within webview:
     if (isHyperTextUrl) {
       this._openInWebView(url);
       return;
@@ -108,7 +108,7 @@ export default class CheckoutWebView extends Component<Props> {
         this.logger.info("[_openInWebView] URL:", url);
         this.setState({ url: url, shouldLoad: true });
       })
-      .catch((reason) => {
+      .catch((reason: any) => {
         console.error("[Linking.canOpenURL] error reason:", reason);
       });
   }
@@ -119,7 +119,9 @@ export default class CheckoutWebView extends Component<Props> {
       .then(() => {
         this.logger.info("[_openExternalBrowser] URL:", url);
       })
-      .catch((err) => console.error("[Linking.openURL] error occurred", err));
+      .catch((err: any) =>
+        console.error("[Linking.openURL] error occurred", err)
+      );
   }
 
   render(): ReactNode {
@@ -214,14 +216,14 @@ export default class CheckoutWebView extends Component<Props> {
         this.setState({ mpUrlOpened: true });
         console.log("OPENING MP:", response.url);
         Linking.canOpenURL(response.url)
-          .then((supported) => {
+          .then((supported: boolean) => {
             if (supported) {
               Linking.openURL(response.url);
             } else {
               console.error("Could not open: ", response.url);
             }
           })
-          .catch((reason) => {
+          .catch((reason: any) => {
             console.error("ERROR REASON:");
             console.error(reason);
           });

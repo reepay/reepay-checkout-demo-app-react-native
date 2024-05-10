@@ -187,7 +187,7 @@ export const Input = () => {
       <TextInput
         clearButtonMode="always"
         style={styles.input}
-        onChangeText={(text) => {
+        onChangeText={(text: string) => {
           onChangedSession(text);
           if (!text) {
             setId("");
