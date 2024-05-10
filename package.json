@@ -13,7 +13,7 @@
     "tunnel": "npx expo start --tunnel"
   },
   "dependencies": {
-    "@expo/webpack-config": "~19.0.1",
+    "@expo/webpack-config": "^0.12.52",
     "@react-navigation/drawer": "^6.4.3",
     "@react-navigation/native": "^6.0.11",
     "@react-navigation/native-stack": "^6.7.0",
