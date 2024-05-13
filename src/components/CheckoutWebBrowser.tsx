@@ -126,7 +126,7 @@ export default class CheckoutWebBrowser extends Component<Props> {
           <TextInput
             clearButtonMode="always"
             style={styles.input}
-            onChangeText={(text) => {
+            onChangeText={(text: string) => {
               setSessionUrl(text);
             }}
             value={sessionUrl}

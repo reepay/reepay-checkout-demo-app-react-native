@@ -1,10 +1,18 @@
 import { CommonActions } from "@react-navigation/native";
 import Constants from "expo-constants";
 import React, { Component, ReactNode } from "react";
-import { Alert, EmitterSubscription, Linking, Platform } from "react-native";
+import {
+  Alert,
+  EmitterSubscription,
+  Linking,
+  Platform,
+  View,
+} from "react-native";
 import WebView from "react-native-webview";
 import { ShouldStartLoadRequest } from "react-native-webview/lib/WebViewTypes";
 import { GLOBALS } from "../Globals";
+import { Api } from "../utils/Api";
+import { getLogger } from "../utils/Logger";
 
 interface Props {
   navigation: any;
@@ -17,9 +25,13 @@ export default class CheckoutWebView extends Component<Props> {
   private listener: EmitterSubscription | undefined;
   private webview: WebView | null | undefined;
 
+  private logger = getLogger();
+
   state: {
     alertShown: boolean;
     mpUrlOpened: boolean;
+    url: string;
+    shouldLoad: boolean;
   };
 
   constructor(props: any) {
@@ -33,28 +45,27 @@ export default class CheckoutWebView extends Component<Props> {
     this.state = {
       alertShown: false,
       mpUrlOpened: false,
+      url: this.sessionUrl,
+      shouldLoad: false,
     };
   }
 
   componentDidMount() {
-    this.listener = Linking.addEventListener("url", (event) => {
+    this.listener = Linking.addEventListener("url", (event: any) => {
       console.log("Initial url changed: ", event);
 
       if ((event.url as String).includes("?cancel=true")) {
-        this.onCancelUrl();
+        this._onCancelUrl();
         return;
       }
 
       if ((event.url as String).includes("accept")) {
-        this.onAcceptUrl();
+        this._onAcceptUrl();
       }
     });
 
-    Constants.getWebViewUserAgentAsync().then((userAgent) => {
-      console.log(
-        "Checkout ~ Constants.getWebViewUserAgentAsync ~ userAgent:",
-        userAgent
-      );
+    Constants.getWebViewUserAgentAsync().then((userAgent: string) => {
+      this.logger.info("Constants.getWebViewUserAgentAsync:", userAgent);
     });
   }
 
@@ -62,24 +73,55 @@ export default class CheckoutWebView extends Component<Props> {
     this.listener?.remove();
   }
 
-  openWebviewUrl(url: string) {
+  private _openUrl(url: string) {
+    const isHyperTextUrl: boolean = url.startsWith("http");
+    const isDeepLinkingUrl: boolean = url.includes(Api.getDeepLinkingUrl());
+    const isStagingRedirectUrl: boolean = url.includes(
+      "https://staging-checkout-api.reepay.com/redirect"
+    );
+    const isMobilePaymentMethod: boolean =
+      url.includes("mobilepay") ||
+      url.includes("swish") ||
+      url.includes("vipps");
+
+    // * Trigger app switch:
+    if (isMobilePaymentMethod && !isStagingRedirectUrl && !isDeepLinkingUrl) {
+      this._openExternalBrowser(url);
+      return;
+    }
+
+    // * Stay within webview:
+    if (isHyperTextUrl) {
+      this._openInWebView(url);
+      return;
+    }
+  }
+
+  // Load URL within webview
+  private _openInWebView(url: string) {
     Linking.canOpenURL(url)
-      .then((supported) => {
-        if (supported) {
-          Linking.openURL(url)
-            .then(() => {
-              console.log("Redirecting to:", url);
-            })
-            .catch((err) =>
-              console.log("[Linking.openURL] error occurred", err)
-            );
-        } else {
+      .then((supported: boolean) => {
+        if (!supported) {
           console.error("[Linking.canOpenURL] Could not open URL:", url);
+          return;
         }
+        this.logger.info("[_openInWebView] URL:", url);
+        this.setState({ url: url, shouldLoad: true });
       })
-      .catch((reason) => {
+      .catch((reason: any) => {
         console.error("[Linking.canOpenURL] error reason:", reason);
       });
+  }
+
+  // Open URL in external browser / app switch
+  private _openExternalBrowser(url: string) {
+    Linking.openURL(url)
+      .then(() => {
+        this.logger.info("[_openExternalBrowser] URL:", url);
+      })
+      .catch((err: any) =>
+        console.error("[Linking.openURL] error occurred", err)
+      );
   }
 
   render(): ReactNode {
@@ -87,57 +129,59 @@ export default class CheckoutWebView extends Component<Props> {
       this.sessionUrl ?? GLOBALS.TEST_CHECKOUT_SESSION_URL;
 
     return (
-      <WebView
-        ref={(ref) => (this.webview = ref)}
-        source={{
-          // todo: change here for testing webview url vs. html
-          uri: sessionUrl, // with url
-          // html: this.getReepayHtml(this.sessionId), // with html
-        }}
-        originWhitelist={["*"]} // allow all URIs to load
-        style={{ marginVertical: 30 }}
-        onLoadEnd={() => {}}
-        startInLoadingState={true}
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        pullToRefreshEnabled={true}
-        onShouldStartLoadWithRequest={(event: ShouldStartLoadRequest) => {
-          /**
-           * Special case handling iframes for iOS
-           * isFirstLoad is needed b/c onShouldStartLoadWithRequest is called on first load
-           * isTopFrame is needed to separate iframe requests from topframe requests
-           */
-          if (Platform.OS === "ios") {
-            const isFirstLoad = event.url === sessionUrl && !event.canGoBack;
-            if (!event.isTopFrame || isFirstLoad) return true;
-          }
+      <View style={{ flex: 1 }}>
+        <WebView
+          ref={(ref) => (this.webview = ref)}
+          source={{
+            // todo: change here for testing webview url vs. html
+            uri: this.state.url, // with url
+            // html: this._getReepayHtml(this.sessionId), // with html
+          }}
+          originWhitelist={["*"]} // allow all URIs to load
+          style={{ marginVertical: 30 }}
+          onLoadEnd={(event: any) => {
+            this.logger.debug("event.nativeEvent.url", event.nativeEvent?.url);
+            this.setState({ url: event.nativeEvent?.url, shouldLoad: false });
+          }}
+          startInLoadingState={true}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
+          pullToRefreshEnabled={true}
+          onShouldStartLoadWithRequest={(event: ShouldStartLoadRequest) => {
+            /**
+             * Special case handling iframes for iOS
+             * isFirstLoad is needed b/c onShouldStartLoadWithRequest is called on first load
+             * isTopFrame is needed to separate iframe requests from topframe requests
+             */
+            if (Platform.OS === "ios") {
+              const isFirstLoad = event.url === sessionUrl && !event.canGoBack;
+              if (!event.isTopFrame || isFirstLoad) return true;
+            }
 
-          if (event.url !== sessionUrl) {
-            this.openWebviewUrl(event.url);
-            return false;
-          }
-          return true;
-        }}
-        onLoadProgress={({ nativeEvent }) => {
-          // console.log(nativeEvent);
-        }}
-        onNavigationStateChange={(state) => {
-          console.log(
-            "🚀 CheckoutWebView ~ onNavigationStateChange ~ state:",
-            state
-          );
+            if (event.url !== sessionUrl) {
+              this._openUrl(event.url);
+              return this.state.shouldLoad;
+            }
+            return true;
+          }}
+          onLoadProgress={({ nativeEvent }) => {
+            // console.log(nativeEvent);
+          }}
+          onNavigationStateChange={(state) => {
+            // this.logger.debug("[WebView][onNavigationStateChange]", state);
 
-          if (this.previousScreen === "MobilePayCheckoutScreen") {
-            this.onMpUrlChange(state);
-            return;
-          }
-          this.onUrlChange(state);
-        }}
-      />
+            if (this.previousScreen === "MobilePayCheckoutScreen") {
+              this._onMpUrlChange(state);
+              return;
+            }
+            this._onUrlChange(state);
+          }}
+        />
+      </View>
     );
   }
 
-  getReepayHtml(id: string): string {
+  private _getReepayHtml(id: string): string {
     return `
         <!DOCTYPE html>
         <html>
@@ -159,11 +203,11 @@ export default class CheckoutWebView extends Component<Props> {
   /**
    * Handle MobilePay Online url redirects
    */
-  onMpUrlChange(response: any) {
+  private _onMpUrlChange(response: any) {
     console.log("Checkout ~ onMpUrlChange ~ response:", response);
 
-    if (response.url.includes("accept")) {
-      this.onAcceptUrl();
+    if (response.url.includes("accep=true")) {
+      this._onAcceptUrl();
       return;
     }
 
@@ -172,14 +216,14 @@ export default class CheckoutWebView extends Component<Props> {
         this.setState({ mpUrlOpened: true });
         console.log("OPENING MP:", response.url);
         Linking.canOpenURL(response.url)
-          .then((supported) => {
+          .then((supported: boolean) => {
             if (supported) {
               Linking.openURL(response.url);
             } else {
               console.error("Could not open: ", response.url);
             }
           })
-          .catch((reason) => {
+          .catch((reason: any) => {
             console.error("ERROR REASON:");
             console.error(reason);
           });
@@ -190,18 +234,18 @@ export default class CheckoutWebView extends Component<Props> {
   /**
    * Handle Card payment accept/cancel URL redirects
    */
-  onUrlChange(response: any) {
-    if (response.url.includes("cancel")) {
-      this.onCancelUrl();
+  private _onUrlChange(response: any) {
+    if (response.url.includes("cancel=true")) {
+      this._onCancelUrl();
       return;
     }
 
-    if (response.url.includes("accept")) {
-      this.onAcceptUrl();
+    if (response.url.includes("accept=true")) {
+      this._onAcceptUrl();
     }
   }
 
-  private onCancelUrl() {
+  private _onCancelUrl() {
     if (!this.state.alertShown) {
       this.setState({ alertShown: true });
       Alert.alert("Response", "Payment cancelled", [
@@ -215,13 +259,13 @@ export default class CheckoutWebView extends Component<Props> {
     }
   }
 
-  private onAcceptUrl() {
+  private _onAcceptUrl() {
     if (!this.state.alertShown) {
       this.setState({ alertShown: true });
 
       if (Platform.OS === "android") {
         console.log("ANDROID MOBILEPAY: payment successful!");
-        this.resetAndBack();
+        this._resetAndBack();
         return;
       }
 
@@ -229,14 +273,14 @@ export default class CheckoutWebView extends Component<Props> {
         {
           text: "Go back",
           onPress: () => {
-            this.resetAndBack();
+            this._resetAndBack();
           },
         },
       ]);
     }
   }
 
-  private resetAndBack() {
+  private _resetAndBack() {
     const resetAction = CommonActions.reset({
       index: 0,
       routes: [{ name: this.previousScreen }],

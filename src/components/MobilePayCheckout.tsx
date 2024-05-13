@@ -105,7 +105,7 @@ function PhoneInput() {
         clearButtonMode="always"
         style={styles.input}
         keyboardType="numeric"
-        onChangeText={(text) => {
+        onChangeText={(text: string) => {
           onChangePhone({
             number: text.replace(/[^0-9]/g, "").toString(),
           });
