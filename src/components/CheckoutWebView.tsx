@@ -64,7 +64,7 @@ export default class CheckoutWebView extends Component<Props> {
       }
     });
 
-    Constants.getWebViewUserAgentAsync().then((userAgent: string) => {
+    Constants.getWebViewUserAgentAsync().then((userAgent: string | null) => {
       this.logger.info("Constants.getWebViewUserAgentAsync:", userAgent);
     });
   }
