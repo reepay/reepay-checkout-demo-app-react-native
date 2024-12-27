@@ -1,6 +1,6 @@
 {
   "name": "reepay-checkout-react-native-example",
-  "version": "2.1.0",
+  "version": "1.0.0",
   "engines": {
     "node": "20.10.0"
   },
