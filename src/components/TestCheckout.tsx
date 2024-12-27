@@ -60,7 +60,10 @@ function SessionUrlInput() {
       <Button
         title="Create checkout webview"
         onPress={() => {
-          if (!sessionUrl.startsWith("https://" || "http://")) {
+          if (
+            !sessionUrl.startsWith("https://") &&
+            !sessionUrl.startsWith("http://")
+          ) {
             Alert.alert("Error", "Url must start with https:// or http://");
             setSessionUrl(`https://${sessionUrl}`);
             return;

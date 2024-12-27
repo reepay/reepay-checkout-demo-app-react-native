@@ -1,6 +1,8 @@
 import { logger } from "react-native-logs";
 
-var Logger = null;
+type LoggerType = ReturnType<typeof logger.createLogger>;
+
+var Logger: LoggerType | null = null;
 
 export const getLogger = () => {
     if (Logger) {
@@ -15,6 +17,6 @@ export const getLogger = () => {
                 debug: "cyanBright",
             },
         },
-    });
+    } as any);
     return Logger;
 };

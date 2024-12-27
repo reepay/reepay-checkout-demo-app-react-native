@@ -9,8 +9,10 @@ import {
   View,
 } from "react-native";
 import WebView from "react-native-webview";
-import { ShouldStartLoadRequest } from "react-native-webview/lib/WebViewTypes";
+import { ShouldStartLoadRequest, WebViewMessageEvent } from "react-native-webview/lib/WebViewTypes";
 import { GLOBALS } from "../Globals";
+import { ECheckoutState } from "../types/enums/ECheckoutState";
+import { EUserAction } from "../types/enums/EUserAction";
 import { Api } from "../utils/Api";
 import { getLogger } from "../utils/Logger";
 
@@ -124,6 +126,58 @@ export default class CheckoutWebView extends Component<Props> {
       );
   }
 
+  private _getCustomUserAgent() {
+    const os = Platform.OS === "ios" ? "iOS" : "Android";
+    const osVersion = Platform.Version;
+    const deviceModel = "UnknownDevice";
+    const customUserAgent = `ReepayCheckoutDemoApp/2.1.0 (ReactNative; ${os} ${osVersion}; ${deviceModel})`;
+    return customUserAgent;
+  }
+
+  private _handleWebViewMessageEvent = (event: WebViewMessageEvent) => {
+    const rawData = event.nativeEvent.data;
+    try {
+      const message = JSON.parse(rawData);
+      this.logger.debug("Message received:", message);
+      const event: ECheckoutState | EUserAction = message.event;
+
+      switch (event) {
+        case ECheckoutState.INIT:
+          this.logger.info("Init Event: Use WebView mode");
+          const customUserAgent = this._getCustomUserAgent();
+          this.logger.info("Custom UA:", customUserAgent);
+          this._replyToWebView(
+            JSON.stringify({
+              isWebView: true,
+              userAgent: customUserAgent,
+            })
+          );
+          break;
+        case ECheckoutState.OPEN:
+          this.logger.info("Open Event: Checkout opened");
+          break;
+        case ECheckoutState.ACCEPT:
+        case ECheckoutState.CANCEL:
+          this.logger.info(`${event} Event`);
+          this.props.navigation.goBack();
+          break;
+        case EUserAction.CARD_INPUT_CHANGE:
+          this.logger.info("Card input change event");
+          this._replyToWebView(
+            JSON.stringify({
+              isWebViewChanged: true, // Let ReepayCheckout know that the WebView has changed
+            })
+          );
+          break;
+        default:
+          this.logger.error("Unknown event:", event);
+          break;
+      }
+    } catch (error) {
+      this.logger.error("Error parsing message:", error);
+    }
+  };
+
   render(): ReactNode {
     const sessionUrl: string =
       this.sessionUrl ?? GLOBALS.TEST_CHECKOUT_SESSION_URL;
@@ -145,6 +199,7 @@ export default class CheckoutWebView extends Component<Props> {
           }}
           startInLoadingState={true}
           javaScriptEnabled={true}
+          onMessage={this._handleWebViewMessageEvent}
           domStorageEnabled={true}
           pullToRefreshEnabled={true}
           onShouldStartLoadWithRequest={(event: ShouldStartLoadRequest) => {
@@ -286,5 +341,20 @@ export default class CheckoutWebView extends Component<Props> {
       routes: [{ name: this.previousScreen }],
     });
     this.props.navigation.dispatch(resetAction);
+  }
+
+  private _replyToWebView(message: string) {
+    if (!this.webview) {
+      console.error("Webview not available");
+      return;
+    }
+    const injectedJavaScript = `
+      if (window.ReactNativeWebView.resolveMessage) {
+        window.ReactNativeWebView.resolveMessage(${message});
+      } else {
+        alert("window.ReactNativeWebView not available");
+      }
+  `;
+    this.webview.injectJavaScript(injectedJavaScript);
   }
 }
