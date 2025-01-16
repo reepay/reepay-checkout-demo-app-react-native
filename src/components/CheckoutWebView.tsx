@@ -261,7 +261,7 @@ export default class CheckoutWebView extends Component<Props> {
   private _onMpUrlChange(response: any) {
     console.log("Checkout ~ onMpUrlChange ~ response:", response);
 
-    if (response.url.includes("accep=true")) {
+    if (response.url.includes("accept=true")) {
       this._onAcceptUrl();
       return;
     }
