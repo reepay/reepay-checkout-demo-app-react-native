@@ -23,6 +23,7 @@ Local Expo CLI is now included in the `expo` package. [New Expo CLI](https://blo
 - [Events](#events)
   - [Url path changes](#url-path-changes)
   - [Extra](#extra)
+  - [Handling events](#handling-events-newly-added-in-v210)
 - [Usage](#usage)
   - [Reepay Private API Key](#reepay-private-api-key)
   - [Reepay MobilePay Checkout](#reepay-mobilepay-checkout)
@@ -31,7 +32,7 @@ Local Expo CLI is now included in the `expo` package. [New Expo CLI](https://blo
 
 ## Available Scripts
 
-The project is built with `node version v18.16.1`, `npm version 9.5.1`, `expo version 49.0.16`, `React Native version 0.72.6` and [`React Native WebView 13.2.2`](https://github.com/react-native-webview/react-native-webview).
+The project is built with `node version v20.10.0`, `npm version 10.2.3`, `expo version 52.0.21`, `React Native version 0.76.5` and [`React Native WebView 13.12.5`](https://github.com/react-native-webview/react-native-webview).
 
 ### `npm run start`
 
@@ -99,6 +100,9 @@ In the WebView, we will listen to URL changes when the checkout has completed a 
 
 ### Extra
 For additional parameters to be passed, use query parameters in `accept_url` or `cancel_url`. For example, `https://webshop.com/decline/order-12345?myEvent=someValue&yourEvent=anotherValue`.
+
+### Handling events `Newly added in v2.1.0`
+The app will now receive events via postMessage from the WebView. The WebView will send a message with the event type and the event data. The app will then handle the event accordingly. See `CheckoutWebView.tsx` for more details.
 
 ## Usage
 

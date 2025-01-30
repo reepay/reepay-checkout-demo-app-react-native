@@ -1,7 +1,10 @@
 {
-  "extends": "expo/tsconfig.base",
-  "compilerOptions": {
-    "jsx": "react",
-    "strict": true,
-  }
+    "extends": "expo/tsconfig.base",
+    "compilerOptions": {
+        "target": "es2015",
+        "lib": ["es2015", "dom"], // "dom" is needed if you're working with browser APIs
+        "module": "commonjs",
+        "jsx": "react",
+        "strict": true
+    }
 }
