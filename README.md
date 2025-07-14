@@ -27,6 +27,7 @@ Local Expo CLI is now included in the `expo` package. [New Expo CLI](https://blo
 - [Usage](#usage)
   - [Reepay Private API Key](#reepay-private-api-key)
   - [Reepay MobilePay Checkout](#reepay-mobilepay-checkout)
+  - [Enable Google Pay](#enable-google-pay)
 - [Troubleshooting](#troubleshooting)
   - [Apple Silicon build issues](#apple-silicon-build-issues)
 
