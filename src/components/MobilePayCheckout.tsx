@@ -83,7 +83,7 @@ function PhoneInput() {
             onChangePhone({ number: "" });
             setSessionUrl("");
           }}
-          color={"#194c85"}
+          color={"#0057FF"}
         ></Button>
       </View>
       {GLOBALS.REEPAY_PRIVATE_API_KEY ? (
@@ -121,7 +121,7 @@ function PhoneInput() {
           <Ionicons
             name="repeat-outline"
             size={16}
-            color="#194c85"
+            color="#0057FF"
             onPress={getRecentCustomer}
           />
         ) : null}
@@ -147,7 +147,7 @@ function PhoneInput() {
             createChargeSession("");
           }
         }}
-        color={"#194c85"}
+        color={"#0057FF"}
       ></Button>
       <TextInput
         style={styles.disabledInput}
@@ -169,7 +169,7 @@ function PhoneInput() {
           );
         }}
         disabled={!sessionUrl}
-        color={"#194c85"}
+        color={"#0057FF"}
       ></Button>
     </SafeAreaView>
   );
@@ -180,7 +180,7 @@ function MobilePayCheckoutScreen() {
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
         <Text style={styles.title}>
-          Generate a charge session and create Billwerk+ Checkout with MobilePay
+          Generate a charge session and create Frisbii Checkout with MobilePay
           only
         </Text>
       </View>
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
   header: {
     margin: 20,
     textAlign: "center",
-    color: "#1eaa7d",
+    color: "#001E58",
     fontSize: 17,
   },
   input: {

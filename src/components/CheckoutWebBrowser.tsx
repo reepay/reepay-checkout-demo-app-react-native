@@ -141,7 +141,7 @@ export default class CheckoutWebBrowser extends Component<Props> {
             title="Open in-app WebBrowser"
             onPress={openSessionUrl}
             disabled={!sessionUrl}
-            color={"#194c85"}
+            color={"#0057FF"}
           />
         </SafeAreaView>
       </ScrollView>

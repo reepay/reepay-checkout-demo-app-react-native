@@ -1,5 +1,5 @@
 /**
- * Based on: https://optimize-docs.billwerk.com/docs/checkoutstate-enum
+ * Based on: https://docs.frisbii.com/docs/checkoutstate-enum
  */
 export enum ECheckoutState {
     INIT = "Init",

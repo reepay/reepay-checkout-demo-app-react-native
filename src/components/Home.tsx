@@ -28,7 +28,7 @@ export const Home = ({ navigation }: any) => {
         <View style={styles.container}>
           <Image
             style={styles.logo}
-            source={require("../../assets/billwerk-logo-color.png")}
+            source={require("../../assets/frisbii-logo-blue.png")}
           />
           <Text style={styles.title}>Checkout Examples</Text>
           <Button onPress={() => navigation.openDrawer()} title="Open menu" />
@@ -87,6 +87,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   statusBar: {
-    backgroundColor: "#1eaa7d",
+    backgroundColor: "#001E58",
   },
 });

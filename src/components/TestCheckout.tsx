@@ -80,7 +80,7 @@ function SessionUrlInput() {
           );
         }}
         disabled={!sessionUrl}
-        color={"#194c85"}
+        color={"#0057FF"}
       />
     </SafeAreaView>
   );
@@ -165,6 +165,6 @@ const styles = StyleSheet.create({
   },
   clipboardText: {
     paddingBottom: 20,
-    color: "#1eaa7d",
+    color: "#001E58",
   },
 });

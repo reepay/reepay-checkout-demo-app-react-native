@@ -119,7 +119,7 @@ export const Input = () => {
             onChangedSession(defaultSessionUrl);
             setId("");
           }}
-          color={"#194c85"}
+          color={"#0057FF"}
         ></Button>
       </View>
       {GLOBALS.REEPAY_PRIVATE_API_KEY ? (
@@ -151,7 +151,7 @@ export const Input = () => {
           <Ionicons
             name="repeat-outline"
             size={16}
-            color="#194c85"
+            color="#0057FF"
             onPress={getRecentCustomer}
           />
         ) : null}
@@ -179,7 +179,7 @@ export const Input = () => {
             createChargeSession("");
           }
         }}
-        color={"#194c85"}
+        color={"#0057FF"}
         disabled={sessionUrl.length > 0}
       ></Button>
       <View style={styles.separator} />
@@ -227,7 +227,7 @@ export const Input = () => {
           );
         }}
         disabled={!sessionUrl}
-        color={"#194c85"}
+        color={"#0057FF"}
       ></Button>
     </SafeAreaView>
   );
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
   header: {
     margin: 20,
     textAlign: "center",
-    color: "#1eaa7d",
+    color: "#001E58",
     fontSize: 17,
   },
   input: {

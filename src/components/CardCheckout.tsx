@@ -15,7 +15,7 @@ function CardCheckoutScreen({ navigation }: { navigation: any }) {
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
         <Text style={styles.title}>
-          Generate a charge session and create a Billwerk+ Checkout
+          Generate a charge session and create a Frisbii Checkout
         </Text>
         <Input />
       </View>
