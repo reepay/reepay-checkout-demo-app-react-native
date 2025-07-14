@@ -17,6 +17,7 @@ import {
   View,
 } from "react-native";
 import { GLOBALS } from "../Globals";
+import { COLORS } from "../types/constants/Colors.constants";
 
 interface Props {
   navigation: any;
@@ -141,7 +142,7 @@ export default class CheckoutWebBrowser extends Component<Props> {
             title="Open in-app WebBrowser"
             onPress={openSessionUrl}
             disabled={!sessionUrl}
-            color={"#0057FF"}
+            color={COLORS.SECONDARY}
           />
         </SafeAreaView>
       </ScrollView>

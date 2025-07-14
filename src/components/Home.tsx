@@ -9,6 +9,7 @@ import {
   Text,
   View,
 } from "react-native";
+import { COLORS } from "../types/constants/Colors.constants";
 
 export const Home = ({ navigation }: any) => {
   return (
@@ -87,6 +88,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   statusBar: {
-    backgroundColor: "#001E58",
+    backgroundColor: COLORS.PRIMARY,
   },
 });

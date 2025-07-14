@@ -15,6 +15,7 @@ import {
 import { GLOBALS } from "../Globals";
 import { Api } from "../utils/Api";
 import Checkout from "./CheckoutWebView";
+import { COLORS } from "../types/constants/Colors.constants";
 
 interface Props {
   navigation: any;
@@ -83,7 +84,7 @@ function PhoneInput() {
             onChangePhone({ number: "" });
             setSessionUrl("");
           }}
-          color={"#0057FF"}
+          color={COLORS.SECONDARY}
         ></Button>
       </View>
       {GLOBALS.REEPAY_PRIVATE_API_KEY ? (
@@ -121,7 +122,7 @@ function PhoneInput() {
           <Ionicons
             name="repeat-outline"
             size={16}
-            color="#0057FF"
+            color={COLORS.SECONDARY}
             onPress={getRecentCustomer}
           />
         ) : null}
@@ -147,7 +148,7 @@ function PhoneInput() {
             createChargeSession("");
           }
         }}
-        color={"#0057FF"}
+        color={COLORS.SECONDARY}
       ></Button>
       <TextInput
         style={styles.disabledInput}
@@ -169,7 +170,7 @@ function PhoneInput() {
           );
         }}
         disabled={!sessionUrl}
-        color={"#0057FF"}
+        color={COLORS.SECONDARY}
       ></Button>
     </SafeAreaView>
   );
@@ -221,7 +222,7 @@ const styles = StyleSheet.create({
   header: {
     margin: 20,
     textAlign: "center",
-    color: "#001E58",
+    color: COLORS.PRIMARY,
     fontSize: 17,
   },
   input: {

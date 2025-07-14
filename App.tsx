@@ -22,6 +22,7 @@ import { Home } from "./src/components/Home";
 import MobilePayCheckout from "./src/components/MobilePayCheckout";
 import TestCheckout from "./src/components/TestCheckout";
 import { Api } from "./src/utils/Api";
+import { COLORS } from "./src/types/constants/Colors.constants";
 
 const Drawer = createDrawerNavigator();
 
@@ -98,9 +99,9 @@ export default class App extends Component<Props> {
               options={{
                 title: "Home",
                 headerTintColor: "#fff",
-                headerStyle: { backgroundColor: "#001E58" },
+                headerStyle: { backgroundColor: COLORS.PRIMARY },
                 drawerIcon: () => (
-                  <Ionicons name="home-outline" size={20} color="#0057FF" />
+                  <Ionicons name="home-outline" size={20} color={COLORS.SECONDARY} />
                 ),
               }}
             />
@@ -110,9 +111,9 @@ export default class App extends Component<Props> {
               options={{
                 title: "Card Checkout",
                 headerTintColor: "#fff",
-                headerStyle: { backgroundColor: "#001E58" },
+                headerStyle: { backgroundColor: COLORS.PRIMARY },
                 drawerIcon: () => (
-                  <Ionicons name="card-outline" size={20} color="#0057FF" />
+                  <Ionicons name="card-outline" size={20} color={COLORS.SECONDARY} />
                 ),
               }}
             />
@@ -122,12 +123,12 @@ export default class App extends Component<Props> {
               options={{
                 title: "MobilePay Checkout",
                 headerTintColor: "#fff",
-                headerStyle: { backgroundColor: "#001E58" },
+                headerStyle: { backgroundColor: COLORS.PRIMARY },
                 drawerIcon: () => (
                   <Ionicons
                     name="phone-portrait-outline"
                     size={20}
-                    color="#0057FF"
+                    color={COLORS.SECONDARY}
                   />
                 ),
               }}
@@ -138,9 +139,9 @@ export default class App extends Component<Props> {
               options={{
                 title: "Checkout WebView",
                 headerTintColor: "#fff",
-                headerStyle: { backgroundColor: "#001E58" },
+                headerStyle: { backgroundColor: COLORS.PRIMARY },
                 drawerIcon: () => (
-                  <Ionicons name="globe-outline" size={20} color="#0057FF" />
+                  <Ionicons name="globe-outline" size={20} color={COLORS.SECONDARY} />
                 ),
               }}
             />
@@ -150,9 +151,9 @@ export default class App extends Component<Props> {
               options={{
                 title: "Checkout WebBrowser",
                 headerTintColor: "#fff",
-                headerStyle: { backgroundColor: "#001E58" },
+                headerStyle: { backgroundColor: COLORS.PRIMARY },
                 drawerIcon: () => (
-                  <Ionicons name="browsers-outline" size={20} color="#0057FF" />
+                  <Ionicons name="browsers-outline" size={20} color={COLORS.SECONDARY} />
                 ),
               }}
             />

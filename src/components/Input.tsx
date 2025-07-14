@@ -14,6 +14,7 @@ import {
 import { GLOBALS } from "../Globals";
 import { Api } from "../utils/Api";
 import * as Clipboard from "expo-clipboard";
+import { COLORS } from "../types/constants/Colors.constants";
 
 export const Input = () => {
   const defaultSessionUrl: string = GLOBALS.TEST_CHECKOUT_SESSION_URL
@@ -119,7 +120,7 @@ export const Input = () => {
             onChangedSession(defaultSessionUrl);
             setId("");
           }}
-          color={"#0057FF"}
+          color={COLORS.SECONDARY}
         ></Button>
       </View>
       {GLOBALS.REEPAY_PRIVATE_API_KEY ? (
@@ -151,7 +152,7 @@ export const Input = () => {
           <Ionicons
             name="repeat-outline"
             size={16}
-            color="#0057FF"
+            color={COLORS.SECONDARY}
             onPress={getRecentCustomer}
           />
         ) : null}
@@ -179,7 +180,7 @@ export const Input = () => {
             createChargeSession("");
           }
         }}
-        color={"#0057FF"}
+        color={COLORS.SECONDARY}
         disabled={sessionUrl.length > 0}
       ></Button>
       <View style={styles.separator} />
@@ -227,7 +228,7 @@ export const Input = () => {
           );
         }}
         disabled={!sessionUrl}
-        color={"#0057FF"}
+        color={COLORS.SECONDARY}
       ></Button>
     </SafeAreaView>
   );
@@ -237,7 +238,7 @@ const styles = StyleSheet.create({
   header: {
     margin: 20,
     textAlign: "center",
-    color: "#001E58",
+    color: COLORS.PRIMARY,
     fontSize: 17,
   },
   input: {
