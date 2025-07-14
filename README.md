@@ -33,7 +33,7 @@ Local Expo CLI is now included in the `expo` package. [New Expo CLI](https://blo
 
 ## Available Scripts
 
-The project is built with `node version v20.10.0`, `npm version 10.2.3`, `expo version 52.0.21`, `React Native version 0.76.5` and [`React Native WebView 13.12.5`](https://github.com/react-native-webview/react-native-webview).
+The project is built with `node version v20.10.0`, `npm version 10.2.3`, `expo version 53.0.19`, `React Native version 0.79.5` and [`React Native WebView 13.15.0`](https://github.com/react-native-webview/react-native-webview).
 
 ### `npm run start`
 
