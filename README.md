@@ -151,9 +151,11 @@ https://user-images.githubusercontent.com/108516218/185397780-77cc8d5b-16e6-4a35
 
 ### Enable Google Pay
 
-[Google Pay is now availble in Android WebView](https://developers.googleblog.com/en/adding-support-for-google-pay-within-android-webview/) and [React Native WebView version 13.15.0 and above supports Google Pay](https://github.com/react-native-webview/react-native-webview/releases/tag/v13.15.0).
+[Google Pay is now availble on Android WebView](https://developers.googleblog.com/en/adding-support-for-google-pay-within-android-webview/) and [only React Native WebView version 13.15.0 and above supports Google Pay](https://github.com/react-native-webview/react-native-webview/releases/tag/v13.15.0).
 
 - It is required to run `npm run android` or `npx expo run:android` and build the Android app explicitly to enable Google Pay.
+
+https://github.com/user-attachments/assets/55e4652c-028c-494a-9cfe-3903d854d45c
 
 ## Troubleshooting
 
