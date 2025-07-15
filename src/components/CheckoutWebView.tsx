@@ -9,7 +9,10 @@ import {
   View,
 } from "react-native";
 import WebView from "react-native-webview";
-import { ShouldStartLoadRequest, WebViewMessageEvent } from "react-native-webview/lib/WebViewTypes";
+import {
+  ShouldStartLoadRequest,
+  WebViewMessageEvent,
+} from "react-native-webview/lib/WebViewTypes";
 import { GLOBALS } from "../Globals";
 import { ECheckoutState } from "../types/enums/ECheckoutState";
 import { EUserAction } from "../types/enums/EUserAction";
@@ -199,6 +202,7 @@ export default class CheckoutWebView extends Component<Props> {
           }}
           startInLoadingState={true}
           javaScriptEnabled={true}
+          paymentRequestEnabled={true} // enable Google Pay
           onMessage={this._handleWebViewMessageEvent}
           domStorageEnabled={true}
           pullToRefreshEnabled={true}

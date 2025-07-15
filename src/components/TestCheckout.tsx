@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import { GLOBALS } from "../Globals";
 import Checkout from "./CheckoutWebView";
+import { COLORS } from "../types/constants/Colors.constants";
 
 interface Props {
   navigation: any;
@@ -80,7 +81,7 @@ function SessionUrlInput() {
           );
         }}
         disabled={!sessionUrl}
-        color={"#194c85"}
+        color={COLORS.SECONDARY}
       />
     </SafeAreaView>
   );
@@ -165,6 +166,6 @@ const styles = StyleSheet.create({
   },
   clipboardText: {
     paddingBottom: 20,
-    color: "#1eaa7d",
+    color: COLORS.PRIMARY,
   },
 });

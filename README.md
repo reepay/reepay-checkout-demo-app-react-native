@@ -27,12 +27,13 @@ Local Expo CLI is now included in the `expo` package. [New Expo CLI](https://blo
 - [Usage](#usage)
   - [Reepay Private API Key](#reepay-private-api-key)
   - [Reepay MobilePay Checkout](#reepay-mobilepay-checkout)
+  - [Enable Google Pay](#enable-google-pay)
 - [Troubleshooting](#troubleshooting)
   - [Apple Silicon build issues](#apple-silicon-build-issues)
 
 ## Available Scripts
 
-The project is built with `node version v20.10.0`, `npm version 10.2.3`, `expo version 52.0.21`, `React Native version 0.76.5` and [`React Native WebView 13.12.5`](https://github.com/react-native-webview/react-native-webview).
+The project is built with `node version v20.10.0`, `npm version 10.2.3`, `expo version 53.0.19`, `React Native version 0.79.5` and [`React Native WebView 13.15.0`](https://github.com/react-native-webview/react-native-webview).
 
 ### `npm run start`
 
@@ -147,6 +148,14 @@ MobilePay Online steps:
 6. Complete the purchase with a [MobilePay test user](https://developer.mobilepay.dk/products/online/test) or reject the payment.
 
 https://user-images.githubusercontent.com/108516218/185397780-77cc8d5b-16e6-4a35-90c4-93e99e6748e5.mov
+
+### Enable Google Pay
+
+[Google Pay is now availble on Android WebView](https://developers.googleblog.com/en/adding-support-for-google-pay-within-android-webview/) and [only React Native WebView version 13.15.0 and above supports Google Pay](https://github.com/react-native-webview/react-native-webview/releases/tag/v13.15.0).
+
+- It is required to run `npm run android` or `npx expo run:android` and build the Android app explicitly to enable Google Pay.
+
+https://github.com/user-attachments/assets/55e4652c-028c-494a-9cfe-3903d854d45c
 
 ## Troubleshooting
 
