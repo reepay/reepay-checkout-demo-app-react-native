@@ -1,50 +1,52 @@
 {
-    "expo": {
-        "name": "reepay-checkout-react-native-example",
-        "slug": "reepay-checkout-react-native-example",
-        "description": "Reepay Checkout example in React Native",
-        "owner": "reepaydev",
-        "version": "2.1.0",
-        "orientation": "portrait",
-        "icon": "./assets/icon.png",
-        "userInterfaceStyle": "light",
-        "newArchEnabled": true,
-        "splash": {
-            "image": "./assets/splash.png",
-            "resizeMode": "contain",
-            "backgroundColor": "#ffffff"
-        },
-        "updates": {
-            "fallbackToCacheTimeout": 0
-        },
-        "assetBundlePatterns": ["**/*"],
-        "ios": {
-            "supportsTablet": true,
-            "bundleIdentifier": "com.reepay.checkout.react.native.example"
-        },
-        "android": {
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/icon.png",
-                "backgroundColor": "#FFFFFF"
-            },
-            "package": "com.reepay.checkout.react.example"
-        },
-        "web": {
-            "favicon": "./assets/favicon.png"
-        },
-        "plugins": [
-            [
-                "expo-splash-screen",
-                {
-                    "backgroundColor": "#0057ff",
-                    "image": "./assets/icon.png",
-                    "dark": {
-                        "image": "./assets/icon.png",
-                        "backgroundColor": "#0057ff"
-                    },
-                    "imageWidth": 200
-                }
-            ]
-        ]
-    }
+  "expo": {
+    "name": "reepay-checkout-react-native-example",
+    "slug": "reepay-checkout-react-native-example",
+    "description": "Reepay Checkout example in React Native",
+    "owner": "reepaydev",
+    "version": "2.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.reepay.checkout.react.native.example"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.reepay.checkout.react.example"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#0057ff",
+          "image": "./assets/icon.png",
+          "dark": {
+            "image": "./assets/icon.png",
+            "backgroundColor": "#0057ff"
+          },
+          "imageWidth": 200
+        }
+      ]
+    ]
+  }
 }
